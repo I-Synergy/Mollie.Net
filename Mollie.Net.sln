@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mollie.Net", "Mollie.Net\Mollie.Net.csproj", "{473BC15C-11C3-489F-9E4D-2D75B0C92F96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mollie.Net", "src\Mollie.Net\Mollie.Net.csproj", "{473BC15C-11C3-489F-9E4D-2D75B0C92F96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0526EEC0-C12C-498D-AF41-5490D0095A21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{473BC15C-11C3-489F-9E4D-2D75B0C92F96} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 	EndGlobalSection
 EndGlobal
