@@ -1,2 +1,2 @@
 # Mollie.Net
-Mollie Api for .Net
+Mollie.com Api for .Net
