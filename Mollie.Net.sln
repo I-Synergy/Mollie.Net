@@ -9,12 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39DF8E3F-7AC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0526EEC0-C12C-498D-AF41-5490D0095A21}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mollie.Net.Shared", "src\Mollie.Net.Shared\Mollie.Net.Shared\Mollie.Net.Shared.shproj", "{54D36516-DB57-4243-AA96-64EB3871A116}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mollie.Net.Shared", "src\Mollie.Net.Shared\Mollie.Net.Shared.shproj", "{54D36516-DB57-4243-AA96-64EB3871A116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mollie.Net.Example", "src\Mollie.Net.Example\Mollie.Net.Example.csproj", "{795DAFFB-8300-4CF0-89B6-F8AAD90C7801}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\Mollie.Net.Shared\Mollie.Net.Shared\Mollie.Net.Shared.projitems*{473bc15c-11c3-489f-9e4d-2d75b0c92f96}*SharedItemsImports = 4
-		src\Mollie.Net.Shared\Mollie.Net.Shared\Mollie.Net.Shared.projitems*{54d36516-db57-4243-aa96-64eb3871a116}*SharedItemsImports = 13
+		src\Mollie.Net.Shared\Mollie.Net.Shared.projitems*{473bc15c-11c3-489f-9e4d-2d75b0c92f96}*SharedItemsImports = 4
+		src\Mollie.Net.Shared\Mollie.Net.Shared.projitems*{54d36516-db57-4243-aa96-64eb3871a116}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{473BC15C-11C3-489F-9E4D-2D75B0C92F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{473BC15C-11C3-489F-9E4D-2D75B0C92F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{473BC15C-11C3-489F-9E4D-2D75B0C92F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795DAFFB-8300-4CF0-89B6-F8AAD90C7801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795DAFFB-8300-4CF0-89B6-F8AAD90C7801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795DAFFB-8300-4CF0-89B6-F8AAD90C7801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795DAFFB-8300-4CF0-89B6-F8AAD90C7801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{473BC15C-11C3-489F-9E4D-2D75B0C92F96} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{54D36516-DB57-4243-AA96-64EB3871A116} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
+		{795DAFFB-8300-4CF0-89B6-F8AAD90C7801} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 	EndGlobalSection
 EndGlobal

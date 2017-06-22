@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mollie.Net")]
+[assembly: AssemblyTitle("Mollie.Net.Example")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("International Intelligence")]
-[assembly: AssemblyProduct("Mollie.Net")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Mollie.Net.Example")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("473bc15c-11c3-489f-9e4d-2d75b0c92f96")]
+[assembly: Guid("795daffb-8300-4cf0-89b6-f8aad90c7801")]
 
 // Version information for an assembly consists of the following four values:
 //
