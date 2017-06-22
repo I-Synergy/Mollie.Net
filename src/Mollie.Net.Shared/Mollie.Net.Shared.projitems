@@ -18,10 +18,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ProfileClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\RefundClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\SubscriptionClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\JsonConvertExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PaymentResponseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonConvertExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumerations\Enumerations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\MollieApiException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RawJsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\RawJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\PaymentResponseFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Base\IModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICustomerClient.cs" />
@@ -78,5 +79,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionResponseLinks.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
   </ItemGroup>
 </Project>

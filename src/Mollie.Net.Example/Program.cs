@@ -4,6 +4,7 @@ using Mollie.Net.Models.Payment.Method;
 using Mollie.Net.Models.Payment.Request;
 using Mollie.Net.Models.Payment.Response;
 using System;
+using System.Threading.Tasks;
 
 namespace Mollie.Net.Example
 {
@@ -16,15 +17,15 @@ namespace Mollie.Net.Example
             PaymentMethodClient paymentMethodClient = new PaymentMethodClient(apiKey);
 
             OutputAndWait("Press any key to create a new payment");
-            OutputNewPayment(paymentClient);
+            OutputNewPaymentAsync(paymentClient).ConfigureAwait(false);
             OutputAndWait("Press any key to retrieve a list of payments");
-            OutputPaymentList(paymentClient);
+            OutputPaymentListAsync(paymentClient);
             OutputAndWait("Press any key to retrieve a list of payment methods");
             OutputPaymentMethods(paymentMethodClient);
             OutputAndWait("Example completed");
         }
 
-        static void OutputNewPayment(PaymentClient paymentClient)
+        static async Task OutputNewPaymentAsync(PaymentClient paymentClient)
         {
             Console.WriteLine("Creating a payment");
             PaymentRequest paymentRequest = new PaymentRequest()
@@ -34,16 +35,16 @@ namespace Mollie.Net.Example
                 RedirectUrl = "http://google.com"
             };
 
-            PaymentResponse paymentResponse = paymentClient.CreatePaymentAsync(paymentRequest).Result;
+            PaymentResponse paymentResponse = await paymentClient.CreatePaymentAsync(paymentRequest);
             Console.WriteLine("Payment created");
             Console.WriteLine("");
             Console.WriteLine($"Payment can be paid on the following URL: {paymentResponse.Links.PaymentUrl}");
         }
 
-        static void OutputPaymentList(PaymentClient paymentClient)
+        static async Task OutputPaymentListAsync(PaymentClient paymentClient)
         {
             Console.WriteLine("Outputting the first 2 payments");
-            ListResponse<PaymentResponse> paymentList = paymentClient.GetPaymentListAsync(0, 2).Result;
+            ListResponse<PaymentResponse> paymentList = await paymentClient.GetPaymentListAsync(0, 2);
             foreach (PaymentResponse paymentResponse in paymentList.Data)
             {
                 Console.WriteLine($"Payment Id: { paymentResponse.Id } - Payment method: { paymentResponse.Method }");

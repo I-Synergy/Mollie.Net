@@ -1,8 +1,11 @@
 ﻿using Flurl;
 using Flurl.Http;
+using Mollie.Net.Converters;
 using Mollie.Net.Exceptions;
+using Mollie.Net.Factories;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,7 +34,7 @@ namespace Mollie.Net.Clients.Base
         protected async Task<T> GetAsync<T>(string relativeUri)
         {
             return await new Url(ApiEndPoint)
-                .AppendPathSegments(relativeUri)
+                .AppendPathSegments(ApiVersion, relativeUri)
                 .WithClient(_restClient)
                 .WithOAuthBearerToken(_apiKey)
                 .GetJsonAsync<T>();
@@ -41,7 +44,7 @@ namespace Mollie.Net.Clients.Base
         {
 
             return await new Url(ApiEndPoint)
-                .AppendPathSegments(relativeUri)
+                .AppendPathSegments(ApiVersion, relativeUri)
                 .SetQueryParams(new
                     {
                         offset = offset,
@@ -55,16 +58,12 @@ namespace Mollie.Net.Clients.Base
 
         protected async Task<T> PostAsync<T>(string relativeUri, object data)
         {
-            var request = await new Url(ApiEndPoint)
-                    .AppendPathSegment(relativeUri)
+            return await new Url(ApiEndPoint)
+                    .AppendPathSegments(ApiVersion, relativeUri)
                     .WithClient(_restClient)
                     .WithOAuthBearerToken(_apiKey)
-                    .PostJsonAsync(data);
-
-            //if (data != null)
-            //    request.AddParameter(string.Empty, JsonConvertExtensions.SerializeObjectCamelCase(data), ParameterType.RequestBody);
-            
-            return await this.ExecuteRequestAsync<T>(request).ConfigureAwait(false);
+                    .PostStringAsync(JsonConvertExtensions.SerializeObjectCamelCase(data))
+                    .ReceiveJson<T>();
         }
 
         private Task<T> ExecuteRequestAsync<T>(HttpResponseMessage response)
@@ -96,27 +95,10 @@ namespace Mollie.Net.Clients.Base
         protected async Task DeleteAsync(string relativeUri)
         {
             await new Url(ApiEndPoint)
-                .AppendPathSegments(relativeUri)
+                .AppendPathSegments(ApiVersion, relativeUri)
                 .WithClient(_restClient)
                 .WithOAuthBearerToken(_apiKey)
                 .DeleteAsync();
         }
-
-        ///// <summary>
-        ///// Creates the default Json serial settings for the JSON.NET parsing.
-        ///// </summary>
-        ///// <returns></returns>
-        //private JsonSerializerSettings CreateDefaultJsonDeserializerSettings()
-        //{
-        //    return new JsonSerializerSettings
-        //    {
-        //        DateFormatString = "MM-dd-yyyy",
-        //        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
-        //        Converters = new List<JsonConverter>() {
-        //            // Add a special converter for payment responses, because we need to create specific classes based on the payment method
-        //            new PaymentResponseConverter(new PaymentResponseFactory())
-        //        }
-        //    };
-        //}
     }
 }
