@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Mollie.Net")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("mollie.com api library for .net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("International Intelligence")]
 [assembly: AssemblyProduct("Mollie.Net")]
