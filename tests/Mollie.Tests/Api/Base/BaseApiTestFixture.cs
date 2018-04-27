@@ -20,7 +20,7 @@ namespace Mollie.Tests.Base
         public readonly string DefaultRedirectUrl = "https://www.i-synergy.com";
         public readonly string DefaultWebhookUrl = "https://www.i-synergy.com/webhook";
 
-        public readonly string ApiTestKey = "test_INSERT_YOUR_API_KEY"; // Insert you API key here
+        public readonly string ApiTestKey = "test_MhyzSqKSnsxEB5NmBzNeDuVf39ETsa"; // Insert you API key here
 
         public readonly IPaymentClient PaymentClient;
         public readonly IPaymentMethodClient PaymentMethodClient;
