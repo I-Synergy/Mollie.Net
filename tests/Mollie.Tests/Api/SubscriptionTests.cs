@@ -89,7 +89,7 @@ namespace Mollie.Tests
                 await fixture.SubscriptionClient.CancelSubscriptionAsync(customerId, subscriptionId);
                 SubscriptionResponse cancelledSubscription = await fixture.SubscriptionClient.GetSubscriptionAsync(customerId, subscriptionId);
 
-                Assert.Equal(cancelledSubscription.Status, SubscriptionStatus.Cancelled);
+                Assert.True(cancelledSubscription.Status == SubscriptionStatus.Cancelled);
             }
         }
 

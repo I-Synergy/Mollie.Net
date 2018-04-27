@@ -55,7 +55,7 @@ namespace Mollie.Tests
             string email = "johnsmit@mollie.com";
 
             // When: We send the customer request to Mollie
-            CustomerResponse result = await this.CreateCustomer(name, email);
+            CustomerResponse result = await CreateCustomer(name, email);
 
             // Then: Make sure the requested parameters match the response parameter values
             Assert.NotNull(result);
@@ -67,19 +67,19 @@ namespace Mollie.Tests
         public async Task CanRetrieveRecentPaymentMethods()
         {
             // If: We create a new customer and create several payment for the customer
-            CustomerResponse newCustomer = await this.CreateCustomer("Smit", "johnsmit@mollie.com");
-            await this.CreatePayment(newCustomer.Id, PaymentMethods.BankTransfer);
-            await this.CreatePayment(newCustomer.Id, PaymentMethods.Ideal);
-            await this.CreatePayment(newCustomer.Id, PaymentMethods.CreditCard);
+            CustomerResponse newCustomer = await CreateCustomer("Smit", "johnsmit@mollie.com").ConfigureAwait(false);
+            await CreatePayment(newCustomer.Id, PaymentMethods.BankTransfer).ConfigureAwait(false);
+            await CreatePayment(newCustomer.Id, PaymentMethods.Ideal).ConfigureAwait(false);
+            await CreatePayment(newCustomer.Id, PaymentMethods.CreditCard).ConfigureAwait(false);
 
             // When: retrieving the customer again
-            CustomerResponse customerResponse = await fixture.CustomerClient.GetCustomerAsync(newCustomer.Id);
+            CustomerResponse customerResponse = await fixture.CustomerClient.GetCustomerAsync(newCustomer.Id).ConfigureAwait(false);
 
             // Then recent payment methods should contain the payment method
             Assert.NotNull(customerResponse.RecentlyUsedMethods);
-            Assert.NotNull(customerResponse.RecentlyUsedMethods.FirstOrDefault(x => x == PaymentMethods.BankTransfer));
-            Assert.NotNull(customerResponse.RecentlyUsedMethods.FirstOrDefault(x => x == PaymentMethods.Ideal));
-            Assert.NotNull(customerResponse.RecentlyUsedMethods.FirstOrDefault(x => x == PaymentMethods.CreditCard));
+            Assert.Contains(PaymentMethods.BankTransfer, customerResponse.RecentlyUsedMethods);
+            Assert.Contains(PaymentMethods.Ideal, customerResponse.RecentlyUsedMethods);
+            Assert.Contains(PaymentMethods.CreditCard, customerResponse.RecentlyUsedMethods);
 
         }
 
