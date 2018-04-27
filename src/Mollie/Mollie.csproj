@@ -2,6 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Mollie.Net</PackageId>
+    <Authors>Ismail Hassani</Authors>
+    <Company>I-Synergy</Company>
+    <Product>Mollie.Net</Product>
+    <Version>2.0.0</Version>
+    <PackageProjectUrl>https://github.com/IsmailHassani/Mollie.Net</PackageProjectUrl>
+    <PackageIconUrl>http://www.mollie.com/favicon.ico</PackageIconUrl>
+    <Description>Mollie.com api library for .Net Standard 2.0</Description>
+    <Copyright>Copyright 2008-2018</Copyright>
+    <PackageTags>Mollie mollie.com .net c# payment iDeal</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>D:\Projects\Mollie.Net\output\Mollie.Net\debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>D:\Projects\Mollie.Net\output\Mollie.Net\release\netstandard2.0\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
