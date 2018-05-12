@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Mollie.Net</id>
+    <version>2.0.1</version>
+    <authors>Ismail Hassani</authors>
+    <owners>International Intelligence</owners>
+    <iconUrl>http://www.mollie.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Mollie.com api library for .Net Standard 1.1 and 2.0</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008-2017</copyright>
+    <tags>Mollie mollie.com .net c# payment iDeal</tags>
+    <projectUrl>https://github.com/IsmailHassani/Mollie.Net</projectUrl>
+  </metadata>
+</package>

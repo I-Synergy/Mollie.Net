@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39DF8E3F-7AC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0526EEC0-C12C-498D-AF41-5490D0095A21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie", "src\Mollie\Mollie.csproj", "{69E18DB6-5023-4B5A-BD55-98C7138EBFE3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{174E6A27-45BC-461E-AD93-7C73747E8560}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie.Tests", "tests\Mollie.Tests\Mollie.Tests.csproj", "{09E55D1F-881B-426D-9B9F-27FBC44B9556}"
@@ -18,27 +16,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mollie.Shared", "src\Mollie.Shared\Mollie.Shared.shproj", "{92CF4DDD-177C-40B5-AFE4-351B3EC303B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie.NetStandard1.1", "src\Mollie.NetStandard1.1\Mollie.NetStandard1.1.csproj", "{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie.NetStandard2.0", "src\Mollie.NetStandard2.0\Mollie.NetStandard2.0.csproj", "{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{8959900D-8F88-4866-995C-32DEA2E91990}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\Package.nuspec = nuget\Package.nuspec
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Mollie.Shared\Mollie.Shared.projitems*{92cf4ddd-177c-40b5-afe4-351b3ec303b2}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{69E18DB6-5023-4B5A-BD55-98C7138EBFE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69E18DB6-5023-4B5A-BD55-98C7138EBFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69E18DB6-5023-4B5A-BD55-98C7138EBFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69E18DB6-5023-4B5A-BD55-98C7138EBFE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09E55D1F-881B-426D-9B9F-27FBC44B9556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09E55D1F-881B-426D-9B9F-27FBC44B9556}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09E55D1F-881B-426D-9B9F-27FBC44B9556}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09E55D1F-881B-426D-9B9F-27FBC44B9556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{69E18DB6-5023-4B5A-BD55-98C7138EBFE3} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{09E55D1F-881B-426D-9B9F-27FBC44B9556} = {174E6A27-45BC-461E-AD93-7C73747E8560}
+		{92CF4DDD-177C-40B5-AFE4-351B3EC303B2} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
+		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
+		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6882725-666D-4450-B9E6-D8A956E74E11}
