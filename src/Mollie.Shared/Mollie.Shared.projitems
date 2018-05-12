@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>92cf4ddd-177c-40b5-afe4-351b3ec303b2</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Mollie.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IChargebacksClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IConnectClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ICustomerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IInvoicesClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IIssuerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMandateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMollieClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IOrganizationsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentMethodClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPermissionsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IProfileClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IRefundClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISettlementsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISubscriptionClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ClientBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ConnectClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\OauthClientBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ChargebacksClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\CustomerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\InvoicesClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IssuerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\MandateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\OrganizationsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\PaymentClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\PaymentMethodClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\PermissionsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ProfileClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\RefundClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\SettlementsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\SubscriptionClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Argument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContractResolvers\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\JsonCreationConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PaymentResponseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\RawJsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerations\Enumerations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\MollieException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DictionaryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonConvertExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\PaymentResponseFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Chargeback\ChargebackResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Connect\AuthorizeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Connect\TokenRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Connect\TokenResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Customer\CustomerRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Customer\CustomerResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Exceptions\MollieErrorMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Invoice\InvoiceAmount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Invoice\InvoiceLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Invoice\InvoiceLinks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Invoice\InvoiceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Issuer\IssuerResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\List\ListResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\List\ListResponseLinks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Mandate\MandateDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Mandate\MandateRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Mandate\MandateResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Method\PaymentMethodResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Method\PaymentMethodResponseAmount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Method\PaymentMethodResponseImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Organization\OrganizationResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PaymentMethod\PaymentMethodResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PaymentMethod\PaymentMethodResponseAmount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PaymentMethod\PaymentMethodResponseImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Locale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\BankTransferPaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\CreditCardPaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\IDealPaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\KbcIssuer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\KbcPaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\PaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\PaymentRequestApplicationFee.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\PayPalPaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Request\SepaDirectDebitRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\BankTransferPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\BelfiusPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\BitcoinPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\CreditCardPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\IdealPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\KbcPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\MisterCashPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\PaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\PaymentResponseLinks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\PayPalPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\PaySafeCardPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\PodiumCadeauKaartPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\QrCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\SepaDirectDebitResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment\Response\SofortPaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Permission\PermissionResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Profile\Request\ProfileRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Profile\Response\ApiKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Profile\Response\Links.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Profile\Response\ProfileResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Profile\Response\Review.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Refund\RefundRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Refund\RefundResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementAmount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementPeriod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementPeriodCosts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementPeriodCostsRate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementPeriodRevenue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settlement\SettlementResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionResponseLinks.cs" />
+  </ItemGroup>
+</Project>
