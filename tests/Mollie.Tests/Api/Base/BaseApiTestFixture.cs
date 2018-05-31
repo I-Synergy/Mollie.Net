@@ -17,8 +17,8 @@ namespace Mollie.Tests.Base
 
     public class BaseApiTestFixture : IDisposable
     {
-        public readonly string DefaultRedirectUrl = "https://www.i-synergy.com";
-        public readonly string DefaultWebhookUrl = "https://www.i-synergy.com/webhook";
+        public readonly string DefaultRedirectUrl = "https://www.i-synergy.nl";
+        public readonly string DefaultWebhookUrl = "https://www.i-synergy.nl/webhook";
 
         public readonly string ApiTestKey = "test_MhyzSqKSnsxEB5NmBzNeDuVf39ETsa"; // Insert you API key here
 
