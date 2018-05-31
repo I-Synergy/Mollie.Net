@@ -10,6 +10,9 @@ If you have encounter any issues while using this library or have any feature re
 
 ## Getting started
 
+### Create Mollie account
+Create a new [Mollie](https://www.mollie.com/dashboard/signup/4270694?lang=en) account.
+
 ### Installing the library
 The easiest way to install the Mollie .Net Standard library is to use the [Nuget Package](https://www.nuget.org/packages/Mollie.Net).
 ```
