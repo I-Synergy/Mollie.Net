@@ -91,7 +91,7 @@ namespace Mollie.Clients.Base
 
         protected void ValidateApiKeyIsOauthAccesstoken(bool isConstructor = false)
         {
-            if (!this._apiKey.StartsWith("access_"))
+            if (!this._apiKey.StartsWith("live_") && !this._apiKey.StartsWith("test_"))
             {
                 if (isConstructor)
                 {
