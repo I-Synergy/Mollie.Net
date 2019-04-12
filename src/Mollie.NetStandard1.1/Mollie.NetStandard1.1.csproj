@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
@@ -19,11 +19,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>D:\Projects\Mollie.Net\output\Mollie.Net\debug\</OutputPath>
+    <OutputPath>.\output\Mollie.Net\debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>D:\Projects\Mollie.Net\output\Mollie.Net\release\</OutputPath>
+    <OutputPath>.\output\Mollie.Net\release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
