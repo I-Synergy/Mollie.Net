@@ -72,6 +72,8 @@ namespace Mollie.Enumerations
         PaySafeCard,
         [EnumMember(Value = "kbc")]
         Kbc,
+        [EnumMember(Value = "ing")]
+        ING,
     }
 
     /// <summary>
@@ -186,6 +188,7 @@ namespace Mollie.Enumerations
         Maestro,
         Mastercard,
         Unionpay,
-        Via
+        Via,
+        Visa
     }
 }
