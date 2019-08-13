@@ -72,8 +72,8 @@ namespace Mollie.Enumerations
         PaySafeCard,
         [EnumMember(Value = "kbc")]
         Kbc,
-        [EnumMember(Value = "ing")]
-        ING,
+        [EnumMember(Value = "inghomepay")]
+        inghomepay,
     }
 
     /// <summary>
