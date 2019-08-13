@@ -7,28 +7,28 @@
     <Authors>Ismail Hassani</Authors>
     <Company>I-Synergy</Company>
     <Product>Mollie.Net</Product>
-    <Version>2.0.2</Version>
-    <PackageProjectUrl>https://github.com/IsmailHassani/Mollie.Net</PackageProjectUrl>
+    <Version>2.0.3</Version>
+    <PackageProjectUrl>https://github.com/I-Synergy/Mollie.Net</PackageProjectUrl>
     <PackageIconUrl>http://www.mollie.com/favicon.ico</PackageIconUrl>
     <Description>Mollie.com api library for .Net Standard 1.1</Description>
     <Copyright>Copyright 2008-2018</Copyright>
     <PackageTags>Mollie mollie.com .net c# payment iDeal</PackageTags>
     <AssemblyName>Mollie</AssemblyName>
     <RootNamespace>Mollie</RootNamespace>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>.\output\Mollie.Net\debug\</OutputPath>
+    <OutputPath>..\..\output\Mollie.Net\debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>.\output\Mollie.Net\release\</OutputPath>
+    <OutputPath>..\..\output\Mollie.Net\release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>

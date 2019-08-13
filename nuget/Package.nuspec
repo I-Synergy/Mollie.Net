@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Mollie.Net</id>
-    <version>2.0.2</version>
+    <version>$version$</version>
     <authors>Ismail Hassani</authors>
     <owners>International Intelligence</owners>
     <iconUrl>http://www.mollie.com/favicon.ico</iconUrl>
@@ -11,6 +11,27 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2008-2017</copyright>
     <tags>Mollie mollie.com .net c# payment iDeal</tags>
-    <projectUrl>https://github.com/IsmailHassani/Mollie.Net</projectUrl>
+    <projectUrl>https://github.com/I-Synergy/Mollie.Net</projectUrl>
+
+    <dependencies>
+      <group targetFramework=".NETStandard1.1">
+        <dependency id="Microsoft.CSharp" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.CSharp" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
   </metadata>
+
+  <files>
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard1.1\Mollie.deps.json" target="lib\netstandard1.1" />
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard1.1\Mollie.dll" target="lib\netstandard1.1" />
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard1.1\Mollie.pdb" target="lib\netstandard1.1" />
+    
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard2.0\Mollie.deps.json" target="lib\netstandard2.0" />
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard2.0\Mollie.dll" target="lib\netstandard2.0" />
+    <file src="..\output\Mollie.Net\$BuildConfiguration$\netstandard2.0\Mollie.pdb" target="lib\netstandard2.0" />
+  </files>
 </package>
