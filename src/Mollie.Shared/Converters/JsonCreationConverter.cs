@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Mollie.Converters
 {
@@ -27,7 +25,7 @@ namespace Mollie.Converters
             var jObject = JObject.Load(reader);
 
             // Create target object based on JObject
-            var target = this.Create(objectType, jObject);
+            var target = Create(objectType, jObject);
 
             //Create a new reader for this jObject, and set all properties to match the original reader.
             var jObjectReader = jObject.CreateReader();

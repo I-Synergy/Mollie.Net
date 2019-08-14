@@ -1,10 +1,30 @@
-﻿namespace Mollie.Models.List
+﻿using Mollie.Models.Url;
+
+namespace Mollie.Models.List
 {
-    public class ListResponseLinks
+    /// <summary>
+    /// Links to help navigate through the lists of objects, based on the given offset.
+    /// </summary>
+    public class ListResponseLinks<T> where T : IResponseObject
     {
-        public string Previous { get; set; }
-        public string Next { get; set; }
-        public string First { get; set; }
-        public string Last { get; set; }
+        /// <summary>
+        /// The URL to the current set of payments.
+        /// </summary>
+        public UrlObjectLink<ListResponse<T>> Self { get; set; }
+
+        /// <summary>
+        /// The previous set of objects, if available.
+        /// </summary>
+        public UrlObjectLink<ListResponse<T>> Previous { get; set; }
+
+        /// <summary>
+        /// The next set of objects, if available.
+        /// </summary>
+        public UrlObjectLink<ListResponse<T>> Next { get; set; }
+
+        /// <summary>
+        /// The URL to the payments list endpoint documentation.
+        /// </summary>
+        public UrlLink Documentation { get; set; }
     }
 }

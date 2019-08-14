@@ -1,10 +1,8 @@
 ﻿using Mollie.Enumerations;
-using Mollie.Factories;
+using Mollie.Framework.Factories;
 using Mollie.Models.Payment.Response;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mollie.Converters
 {
@@ -14,19 +12,19 @@ namespace Mollie.Converters
 
         public PaymentResponseConverter(PaymentResponseFactory paymentResponseFactory)
         {
-            this._paymentResponseFactory = paymentResponseFactory;
+            _paymentResponseFactory = paymentResponseFactory;
         }
 
         protected override PaymentResponse Create(Type objectType, JObject jObject)
         {
-            var paymentMethod = this.GetPaymentMethod(jObject);
+            var paymentMethod = GetPaymentMethod(jObject);
 
-            return this._paymentResponseFactory.Create(paymentMethod);
+            return _paymentResponseFactory.Create(paymentMethod);
         }
 
         private PaymentMethods? GetPaymentMethod(JObject jObject)
         {
-            if (this.FieldExists("method", jObject))
+            if (FieldExists("method", jObject))
             {
                 var paymentMethodValue = (string)jObject["method"];
                 if (!string.IsNullOrEmpty(paymentMethodValue))

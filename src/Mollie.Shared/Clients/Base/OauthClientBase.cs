@@ -1,16 +1,18 @@
-﻿using Mollie.Clients.Base;
-using System;
+﻿using System;
+using System.Net.Http;
 
-namespace Mollie.Client.Base {
-    public class OAuthClientBase : ClientBase
+namespace Mollie.Client
+{
+    public class OauthClientBase : ClientBase
     {
-        public OAuthClientBase(string oauthAccessToken) : base(oauthAccessToken)
+        public OauthClientBase(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
         {
-            if (string.IsNullOrWhiteSpace(oauthAccessToken)) {
+            if (string.IsNullOrWhiteSpace(oauthAccessToken))
+            {
                 throw new ArgumentNullException(nameof(oauthAccessToken), "Mollie API key cannot be empty");
             }
 
-            this.ValidateApiKeyIsOauthAccesstoken(true);
+            ValidateApiKeyIsOauthAccesstoken(true);
         }
     }
 }

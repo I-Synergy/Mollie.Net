@@ -1,41 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Abstract;
-using Mollie.Extensions;
+using Mollie.Client.Abstract;
 using Mollie.Models.Chargeback;
 using Mollie.Models.List;
-using Mollie.Clients.Base;
 
-namespace Mollie.Client {
-    public class ChargebacksClient : ClientBase, IChargebacksClient {
-        public ChargebacksClient(string apiKey) : base(apiKey) {
+namespace Mollie.Client
+{
+    public class ChargebacksClient : ClientBase, IChargebacksClient
+    {
+        public ChargebacksClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient)
+        {
         }
 
-        public Task<ChargebackResponse> GetChargebackAsync(string paymentId, string chargebackId) =>
-            GetAsync<ChargebackResponse>($"payments/{paymentId}/chargebacks/{chargebackId}");
+        public async Task<ChargebackResponse> GetChargebackAsync(string paymentId, string chargebackId)
+        {
+            return await GetAsync<ChargebackResponse>($"payments/{paymentId}/chargebacks/{chargebackId}")
+                .ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string paymentId,
-            int? offset = null, int? count = null)  =>
-                GetListAsync<ListResponse<ChargebackResponse>>($"payments/{paymentId}/chargebacks", offset, count);
+        public async Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string paymentId, string from = null, int? limit = null)
+        {
+            return await
+                GetListAsync<ListResponse<ChargebackResponse>>($"payments/{paymentId}/chargebacks", from, limit)
+                .ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(int? offset = null,
-            int? count = null, string oathProfileId = null, bool? oauthTestmode = null) {
-            if (oathProfileId != null || oauthTestmode != null) {
-                this.ValidateApiKeyIsOauthAccesstoken();
+        public async Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string profileId = null, bool? testmode = null)
+        {
+            if (profileId != null || testmode != null)
+            {
+                ValidateApiKeyIsOauthAccesstoken();
             }
 
             // Build parameters
-            var parameters = new Dictionary<string, object>();
+            var parameters = new Dictionary<string, string>();
+            parameters.AddValueIfNotNullOrEmpty(nameof(profileId), profileId);
+            parameters.AddValueIfNotNullOrEmpty(nameof(testmode), Convert.ToString(testmode).ToLower());
 
-            if (!string.IsNullOrWhiteSpace(oathProfileId)) {
-                parameters.Add("profileId", oathProfileId);
-            }
-
-            if (oauthTestmode.HasValue) {
-                parameters.Add("testmode", oauthTestmode.Value.ToString().ToLower());
-            }
-
-            return GetListAsync<ListResponse<ChargebackResponse>>($"chargebacks", offset, count, parameters);
+            return await GetListAsync<ListResponse<ChargebackResponse>>($"chargebacks", null, null, parameters).ConfigureAwait(false);
         }
     }
 }

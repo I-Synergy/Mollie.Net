@@ -1,110 +1,144 @@
-﻿using Mollie.Enumerations;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mollie.Enumerations;
+using Mollie.Models;
 using Mollie.Models.Customer;
 using Mollie.Models.List;
 using Mollie.Models.Mandate;
 using Mollie.Models.Subscription;
-using Mollie.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace Mollie.Tests
+namespace Mollie.Tests.Api
 {
-    [Collection(nameof(BaseApiTestFixture))]
-    public class SubscriptionTests
+    [TestClass]
+    public class SubscriptionTests : BaseApiTestFixture
     {
-        protected BaseApiTestFixture fixture;
-
-        public SubscriptionTests(BaseApiTestFixture _fixture)
-        {
-            fixture = _fixture;
-        }
-
-        [Fact(Skip = "No customers with valid mandate found.Unable to test subscription API")]
-        public async Task CanRetrieveMandateList()
-        {
+        [TestMethod]
+        public async Task CanRetrieveSubscriptionList() {
             // Given
             string customerId = await this.GetFirstCustomerWithValidMandate();
 
             // When: Retrieve subscription list with default settings
-            ListResponse<SubscriptionResponse> response = await fixture.SubscriptionClient.GetSubscriptionListAsync(customerId);
+            ListResponse<SubscriptionResponse> response = await SubscriptionClient.GetSubscriptionListAsync(customerId);
 
             // Then
-            Assert.NotNull(response);
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Items);
         }
 
-        [Fact(Skip = "No customers with valid mandate found.Unable to test subscription API")]
-        public async Task ListSubscriptionsNeverReturnsMoreCustomersThenTheNumberOfRequestedSubscriptions()
-        {
+        [TestMethod]
+        public async Task ListSubscriptionsNeverReturnsMoreCustomersThenTheNumberOfRequestedSubscriptions() {
             // Given: Number of customers requested is 5
             string customerId = await this.GetFirstCustomerWithValidMandate();
             int numberOfSubscriptions = 5;
 
             // When: Retrieve 5 subscriptions
-            ListResponse<SubscriptionResponse> response = await fixture.SubscriptionClient.GetSubscriptionListAsync(customerId, 0, numberOfSubscriptions);
+            ListResponse<SubscriptionResponse> response = await SubscriptionClient.GetSubscriptionListAsync(customerId, null, numberOfSubscriptions);
 
             // Then
-            Assert.True(response.Data.Count <= numberOfSubscriptions);
+            Assert.IsTrue(response.Items.Count <= numberOfSubscriptions);
         }
 
-        [Fact(Skip = "No customers with valid mandate found.Unable to test subscription API")]
-        public async Task CanCreateSubscription()
-        {
+        [TestMethod]
+        public async Task CanCreateSubscription() {
             // Given
             string customerId = await this.GetFirstCustomerWithValidMandate();
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.Amount = 100;
+            subscriptionRequest.Amount = new Amount(Currency.EUR, "100.00");
             subscriptionRequest.Times = 5;
             subscriptionRequest.Interval = "1 month";
-            subscriptionRequest.Description = $"Subscription {DateTime.Now}"; // Subscriptions must have a unique name
+            subscriptionRequest.Description = $"Subscription {Guid.NewGuid()}"; // Subscriptions must have a unique name
             subscriptionRequest.WebhookUrl = "http://www.google.nl";
             subscriptionRequest.StartDate = DateTime.Now.AddDays(1);
 
             // When
-            SubscriptionResponse subscriptionResponse = await fixture.SubscriptionClient.CreateSubscriptionAsync(customerId, subscriptionRequest);
+            SubscriptionResponse subscriptionResponse = await SubscriptionClient.CreateSubscriptionAsync(customerId, subscriptionRequest);
 
             // Then
-            Assert.Equal(subscriptionRequest.Amount, subscriptionResponse.Amount);
-            Assert.Equal(subscriptionRequest.Times, subscriptionResponse.Times);
-            Assert.Equal(subscriptionRequest.Interval, subscriptionResponse.Interval);
-            Assert.Equal(subscriptionRequest.Description, subscriptionResponse.Description);
-            Assert.Equal(subscriptionRequest.WebhookUrl, subscriptionResponse.Links.WebhookUrl);
-            Assert.Equal(subscriptionRequest.StartDate.Value.Date, subscriptionResponse.StartDate);
+            Assert.AreEqual(subscriptionRequest.Amount.Value, subscriptionResponse.Amount.Value);
+            Assert.AreEqual(subscriptionRequest.Amount.Currency, subscriptionResponse.Amount.Currency);
+            Assert.AreEqual(subscriptionRequest.Times, subscriptionResponse.Times);
+            Assert.AreEqual(subscriptionRequest.Interval, subscriptionResponse.Interval);
+            Assert.AreEqual(subscriptionRequest.Description, subscriptionResponse.Description);
+            Assert.AreEqual(subscriptionRequest.WebhookUrl, subscriptionResponse.WebhookUrl);
+            Assert.AreEqual(subscriptionRequest.StartDate.Value.Date, subscriptionResponse.StartDate);
         }
 
-        [Fact(Skip = "No customers with valid mandate found.Unable to test subscription API")]
-        public async Task CanCancelSubscription()
-        {
+        [TestMethod]
+        public async Task CanCancelSubscription() {
             // Given
             string customerId = await this.GetFirstCustomerWithValidMandate();
-            ListResponse<SubscriptionResponse> subscriptions = await fixture.SubscriptionClient.GetSubscriptionListAsync(customerId);
+            ListResponse<SubscriptionResponse> subscriptions = await SubscriptionClient.GetSubscriptionListAsync(customerId);
 
             // When
-            if (subscriptions.TotalCount > 0)
-            {
-                string subscriptionId = subscriptions.Data.First().Id;
-                await fixture.SubscriptionClient.CancelSubscriptionAsync(customerId, subscriptionId);
-                SubscriptionResponse cancelledSubscription = await fixture.SubscriptionClient.GetSubscriptionAsync(customerId, subscriptionId);
+            if (subscriptions.Count > 0) {
+                string subscriptionId = subscriptions.Items.First().Id;
+                await SubscriptionClient.CancelSubscriptionAsync(customerId, subscriptionId);
+                SubscriptionResponse cancelledSubscription = await SubscriptionClient.GetSubscriptionAsync(customerId, subscriptionId);
 
-                Assert.True(cancelledSubscription.Status == SubscriptionStatus.Cancelled);
+                // Then
+                Assert.AreEqual(cancelledSubscription.Status, SubscriptionStatus.Canceled);
+            }
+            else {
+                Assert.Inconclusive("No subscriptions found that could be cancelled");
             }
         }
 
-        public async Task<string> GetFirstCustomerWithValidMandate()
-        {
-            ListResponse<CustomerResponse> customers = await fixture.CustomerClient.GetCustomerListAsync();
+        [TestMethod]
+        public async Task CanUpdateSubscription() {
+            // Given 
+            string customerId = await this.GetFirstCustomerWithValidMandate();
+            ListResponse<SubscriptionResponse> subscriptions = await SubscriptionClient.GetSubscriptionListAsync(customerId);
 
-            foreach (CustomerResponse customer in customers.Data)
-            {
-                ListResponse<MandateResponse> mandates = await fixture.MandateClient.GetMandateListAsync(customer.Id);
-                if (mandates.Data.Any(x => x.Status == MandateStatus.Valid))
-                {
+            // When
+            if (subscriptions.Count > 0) {
+                string subscriptionId = subscriptions.Items.First().Id;
+                SubscriptionUpdateRequest request = new SubscriptionUpdateRequest() {
+                    Description = $"Updated subscription {Guid.NewGuid()}"
+                };
+                SubscriptionResponse response = await SubscriptionClient.UpdateSubscriptionAsync(customerId, subscriptionId, request);
+
+                // Then
+                Assert.AreEqual(request.Description, response.Description);
+            }
+            else {
+                Assert.Inconclusive("No subscriptions found that could be cancelled");
+            }
+        }
+
+        [TestMethod]
+        public async Task CanCreateSubscriptionWithMetaData() {
+            // If: We create a subscription with meta data
+            string json = "{\"order_id\":\"4.40\"}";
+            string customerId = await this.GetFirstCustomerWithValidMandate();
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+            subscriptionRequest.Amount = new Amount(Currency.EUR, "100.00");
+            subscriptionRequest.Times = 5;
+            subscriptionRequest.Interval = "1 month";
+            subscriptionRequest.Description = $"Subscription {Guid.NewGuid()}"; // Subscriptions must have a unique name
+            subscriptionRequest.WebhookUrl = "http://www.google.nl";
+            subscriptionRequest.StartDate = DateTime.Now.AddDays(1);
+            subscriptionRequest.Metadata = json;
+
+            // When We send the subscription request to Mollie
+            SubscriptionResponse result = await SubscriptionClient.CreateSubscriptionAsync(customerId, subscriptionRequest);
+
+            // Then: Make sure we get the same json result as metadata
+            Assert.AreEqual(json, result.Metadata);
+        }
+
+        public async Task<string> GetFirstCustomerWithValidMandate() {
+            ListResponse<CustomerResponse> customers = await CustomerClient.GetCustomerListAsync();
+            
+            foreach (CustomerResponse customer in customers.Items) {
+                ListResponse<MandateResponse> mandates = await MandateClient.GetMandateListAsync(customer.Id);
+                if (mandates.Items.Any(x => x.Status == MandateStatus.Valid)) {
                     return customer.Id;
                 }
             }
+
+            Assert.Inconclusive("No customers with valid mandate found. Unable to test subscription API");
             return null;
         }
     }

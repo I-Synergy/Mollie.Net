@@ -29,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{8959900D
 		nuget\Package.nuspec = nuget\Package.nuspec
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{C1B9293E-17FB-44CA-A8BE-C8F096184848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mollie.Sample", "sample\Mollie.Sample\Mollie.Sample.csproj", "{950B3289-3A87-4C92-8634-7A8A80B1A1B1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Mollie.Shared\Mollie.Shared.projitems*{92cf4ddd-177c-40b5-afe4-351b3ec303b2}*SharedItemsImports = 13
@@ -50,6 +54,10 @@ Global
 		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{950B3289-3A87-4C92-8634-7A8A80B1A1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{950B3289-3A87-4C92-8634-7A8A80B1A1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{950B3289-3A87-4C92-8634-7A8A80B1A1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{950B3289-3A87-4C92-8634-7A8A80B1A1B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +67,7 @@ Global
 		{92CF4DDD-177C-40B5-AFE4-351B3EC303B2} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
+		{950B3289-3A87-4C92-8634-7A8A80B1A1B1} = {C1B9293E-17FB-44CA-A8BE-C8F096184848}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6882725-666D-4450-B9E6-D8A956E74E11}
