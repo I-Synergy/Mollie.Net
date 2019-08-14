@@ -1,288 +1,316 @@
-﻿using Mollie.Enumerations;
-using Mollie.Exceptions;
-using Mollie.Models.Customer;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Mollie.Client;
+using Mollie.Models;
 using Mollie.Models.List;
-using Mollie.Models.Mandate;
 using Mollie.Models.Payment;
 using Mollie.Models.Payment.Request;
 using Mollie.Models.Payment.Response;
-using Mollie.Tests.Base;
-using System;
-using System.Collections.Generic;
+using Mollie.Models.Payment.Response.Specific;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mollie.Models.Customer;
+using Mollie.Models.Mandate;
+using Mollie.Enumerations;
 
-namespace Mollie.Tests
+namespace Mollie.Tests.Api
 {
-    [Collection(nameof(BaseApiTestFixture))]
-    public class PaymentTests
+    [TestClass]
+    public class PaymentTests : BaseApiTestFixture
     {
-        protected BaseApiTestFixture fixture;
-
-        public PaymentTests(BaseApiTestFixture _fixture)
-        {
-            fixture = _fixture;
-        }
-
-        [Fact]
-        public async Task CanRetrievePaymentList()
-        {
+        [TestMethod]
+        public async Task CanRetrievePaymentList() {
             // When: Retrieve payment list with default settings
-            ListResponse<PaymentResponse> response = await fixture.PaymentClient.GetPaymentListAsync();
+            ListResponse<PaymentResponse> response = await PaymentClient.GetPaymentListAsync();
 
             // Then
-            Assert.NotNull(response);
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Items);
         }
 
-        [Fact]
-        public async Task ListPaymentsNeverReturnsMorePaymentsThenTheNumberOfRequestedPayments()
-        {
-            // If: Number of payments requested is 5
+        [TestMethod]
+        public async Task ListPaymentsNeverReturnsMorePaymentsThenTheNumberOfRequestedPayments() {
+            // When: Number of payments requested is 5
             int numberOfPayments = 5;
 
             // When: Retrieve 5 payments
-            ListResponse<PaymentResponse> response = await fixture.PaymentClient.GetPaymentListAsync(0, numberOfPayments);
+            ListResponse<PaymentResponse> response = await PaymentClient.GetPaymentListAsync(null, numberOfPayments);
 
             // Then
-            Assert.True(response.Data.Count <= numberOfPayments);
+            Assert.IsTrue(response.Items.Count <= numberOfPayments);
         }
 
-        [Fact]
-        public async Task CanCreateDefaultPaymentWithOnlyRequiredFields()
-        {
-            // If: we create a payment request with only the required parameters
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+        [TestMethod]
+        public async Task WhenRetrievingAListOfPaymentsPaymentSubclassesShouldBeInitialized() {
+            // Given: We create a new payment 
+            IdealPaymentRequest paymentRequest = new IdealPaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl
+                RedirectUrl = this.DefaultRedirectUrl
+            };
+            await PaymentClient.CreatePaymentAsync(paymentRequest);
+
+            // When: We retrieve it in a list
+            ListResponse<PaymentResponse> result = await PaymentClient.GetPaymentListAsync(null, 5);
+
+            // Then: We expect a list with a single ideal payment            
+            Assert.IsInstanceOfType(result.Items.First(), typeof(IdealPaymentResponse));
+        }
+
+        [TestMethod]
+        public async Task CanCreateDefaultPaymentWithOnlyRequiredFields() {
+            // When: we create a payment request with only the required parameters
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
+                Description = "Description",
+                RedirectUrl = this.DefaultRedirectUrl
             };
 
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
 
             // Then: Make sure we get a valid response
-            Assert.NotNull(result);
-            Assert.Equal(paymentRequest.Amount, result.Amount);
-            Assert.Equal(paymentRequest.Description, result.Description);
-            Assert.Equal(paymentRequest.RedirectUrl, result.Links.RedirectUrl);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(paymentRequest.Amount.Currency, result.Amount.Currency);
+            Assert.AreEqual(paymentRequest.Amount.Value, result.Amount.Value);
+            Assert.AreEqual(paymentRequest.Description, result.Description);
+            Assert.AreEqual(paymentRequest.RedirectUrl, result.RedirectUrl);
         }
-
-        [Fact]
-        public async Task CanCreateDefaultPaymentWithAllFields()
-        {
+        
+        [TestMethod]
+        public async Task CanCreateDefaultPaymentWithAllFields() {
             // If: we create a payment request where all parameters have a value
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
-                Locale = Locale.NL,
-                Metadata = @"{""firstName"":""John"",""lastName"":""Doe""}",
+                RedirectUrl = this.DefaultRedirectUrl,
+                Locale = Locale.nl_NL,
+                Metadata = "{\"firstName\":\"John\",\"lastName\":\"Doe\"}",
                 Method = PaymentMethods.BankTransfer,
-                WebhookUrl = fixture.DefaultWebhookUrl
+                WebhookUrl = this.DefaultWebhookUrl
             };
 
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
 
             // Then: Make sure all requested parameters match the response parameter values
-            Assert.NotNull(result);
-            Assert.Equal(paymentRequest.Amount, result.Amount);
-            Assert.Equal(paymentRequest.Description, result.Description);
-            Assert.Equal(paymentRequest.RedirectUrl, result.Links.RedirectUrl);
-            Assert.Equal(paymentRequest.Locale, result.Locale);
-            Assert.Equal(paymentRequest.Metadata, result.Metadata);
-            Assert.Equal(paymentRequest.WebhookUrl, result.Links.WebhookUrl);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(paymentRequest.Amount.Currency, result.Amount.Currency);
+            Assert.AreEqual(paymentRequest.Amount.Value, result.Amount.Value);
+            Assert.AreEqual(paymentRequest.Description, result.Description);
+            Assert.AreEqual(paymentRequest.RedirectUrl, result.RedirectUrl);
+            Assert.AreEqual(paymentRequest.Locale, result.Locale);
+            Assert.AreEqual(paymentRequest.Metadata, result.Metadata);
+            Assert.AreEqual(paymentRequest.WebhookUrl, result.WebhookUrl);
         }
 
-        [Theory]
-        [InlineData(typeof(IdealPaymentRequest), PaymentMethods.Ideal, typeof(IdealPaymentResponse))]
-        [InlineData(typeof(CreditCardPaymentRequest), PaymentMethods.CreditCard, typeof(CreditCardPaymentResponse))]
-        [InlineData(typeof(PaymentRequest), PaymentMethods.MisterCash, typeof(MisterCashPaymentResponse))]
-        [InlineData(typeof(PaymentRequest), PaymentMethods.Sofort, typeof(SofortPaymentResponse))]
-        [InlineData(typeof(BankTransferPaymentRequest), PaymentMethods.BankTransfer, typeof(BankTransferPaymentResponse))]
-        [InlineData(typeof(PayPalPaymentRequest), PaymentMethods.PayPal, typeof(PayPalPaymentResponse), Skip = "The payment method is not enabled in your website profile.")]
-        [InlineData(typeof(PaymentRequest), PaymentMethods.Bitcoin, typeof(BitcoinPaymentResponse), Skip = "The payment method is not enabled in your website profile.")]
-        [InlineData(typeof(PaymentRequest), PaymentMethods.Belfius, typeof(BelfiusPaymentResponse), Skip = "The payment method is not enabled in your website profile.")]
-        [InlineData(typeof(KbcPaymentRequest), PaymentMethods.Kbc, typeof(KbcPaymentResponse), Skip = "The payment method is not enabled in your website profile.")]
-        [InlineData(typeof(PaymentRequest), null, typeof(PaymentResponse))]
-        public async Task CanCreateSpecificPaymentType(Type paymentType, PaymentMethods? paymentMethod, Type expectedResponseType)
-        {
+        [DataTestMethod]
+        [DataRow(typeof(IdealPaymentRequest), PaymentMethods.Ideal, typeof(IdealPaymentResponse))]
+        [DataRow(typeof(CreditCardPaymentRequest), PaymentMethods.CreditCard, typeof(CreditCardPaymentResponse))]
+        [DataRow(typeof(PaymentRequest), PaymentMethods.Bancontact, typeof(BancontactPaymentResponse))]
+        [DataRow(typeof(PaymentRequest), PaymentMethods.Sofort, typeof(SofortPaymentResponse))]
+        [DataRow(typeof(BankTransferPaymentRequest), PaymentMethods.BankTransfer, typeof(BankTransferPaymentResponse))]
+        [DataRow(typeof(PayPalPaymentRequest), PaymentMethods.PayPal, typeof(PayPalPaymentResponse))]
+        [DataRow(typeof(BitcoinPaymentRequest), PaymentMethods.Bitcoin, typeof(BitcoinPaymentResponse))]
+        [DataRow(typeof(PaymentRequest), PaymentMethods.Belfius, typeof(BelfiusPaymentResponse))]
+        [DataRow(typeof(KbcPaymentRequest), PaymentMethods.Kbc, typeof(KbcPaymentResponse))]
+        [DataRow(typeof(PaymentRequest), null, typeof(PaymentResponse))]
+        //[TestCase(typeof(Przelewy24PaymentRequest), PaymentMethod.Przelewy24, typeof(PaymentResponse))] // Payment option is not enabled in website profile
+        public async Task CanCreateSpecificPaymentType(Type paymentType, PaymentMethods? paymentMethod, Type expectedResponseType) {
             // If: we create a specific payment type with some bank transfer specific values
-            PaymentRequest paymentRequest = (PaymentRequest)Activator.CreateInstance(paymentType);
-            paymentRequest.Amount = 100;
+            PaymentRequest paymentRequest = (PaymentRequest) Activator.CreateInstance(paymentType);
+            paymentRequest.Amount = new Amount(Currency.EUR, "100.00");
             paymentRequest.Description = "Description";
-            paymentRequest.RedirectUrl = fixture.DefaultRedirectUrl;
+            paymentRequest.RedirectUrl = this.DefaultRedirectUrl;
             paymentRequest.Method = paymentMethod;
 
+            // Set required billing email for Przelewy24
+            if (paymentRequest is Przelewy24PaymentRequest request)
+            {
+                request.BillingEmail = "example@example.com";
+            }
+
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
 
             // Then: Make sure all requested parameters match the response parameter values
-            Assert.NotNull(result);
-            Assert.Equal(expectedResponseType, result.GetType());
-            Assert.Equal(paymentRequest.Amount, result.Amount);
-            Assert.Equal(paymentRequest.Description, result.Description);
-            Assert.Equal(paymentRequest.RedirectUrl, result.Links.RedirectUrl);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedResponseType, result.GetType());
+            Assert.AreEqual(paymentRequest.Amount.Currency, result.Amount.Currency);
+            Assert.AreEqual(paymentRequest.Amount.Value, result.Amount.Value);
+            Assert.AreEqual(paymentRequest.Description, result.Description);
+            Assert.AreEqual(paymentRequest.RedirectUrl, result.RedirectUrl);
         }
 
-        [Fact]
-        public async Task CanCreatePaymentAndRetrieveIt()
-        {
+        [TestMethod]
+        public async Task CanCreatePaymentAndRetrieveIt() {
             // If: we create a new payment request
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
-                Locale = Locale.DE
+                RedirectUrl = this.DefaultRedirectUrl,
+                Locale = Locale.de_DE
             };
 
             // When: We send the payment request to Mollie and attempt to retrieve it
-            PaymentResponse paymentResponse = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
-            PaymentResponse result = await fixture.PaymentClient.GetPaymentAsync(paymentResponse.Id);
+            PaymentResponse paymentResponse = await PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.GetPaymentAsync(paymentResponse.Id);
 
             // Then
-            Assert.NotNull(result);
-            Assert.Equal(paymentResponse.Id, result.Id);
-            Assert.Equal(paymentResponse.Amount, result.Amount);
-            Assert.Equal(paymentResponse.Description, result.Description);
-            Assert.Equal(paymentResponse.Links.RedirectUrl, result.Links.RedirectUrl);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(paymentResponse.Id, result.Id);
+            Assert.AreEqual(paymentResponse.Amount.Currency, result.Amount.Currency);
+            Assert.AreEqual(paymentResponse.Amount.Value, result.Amount.Value);
+            Assert.AreEqual(paymentResponse.Description, result.Description);
+            Assert.AreEqual(paymentResponse.RedirectUrl, result.RedirectUrl);
         }
 
-        [Fact(Skip = "No customers or mandates found. Unable to test recurring payment tests")]
-        public async Task CanCreateRecurringPaymentAndRetrieveIt()
-        {
+        [TestMethod]
+        public async Task CanCreateRecurringPaymentAndRetrieveIt() {
             // If: we create a new recurring payment
             MandateResponse mandate = await this.GetFirstValidMandate();
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            CustomerResponse customer = await CustomerClient.GetCustomerAsync(mandate.Links.Customer);
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
-                RecurringType = RecurringType.First,
-                CustomerId = mandate.CustomerId
+                RedirectUrl = this.DefaultRedirectUrl,
+                SequenceType = SequenceType.First,
+                CustomerId = customer.Id
             };
 
             // When: We send the payment request to Mollie and attempt to retrieve it
-            PaymentResponse paymentResponse = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
-            PaymentResponse result = await fixture.PaymentClient.GetPaymentAsync(paymentResponse.Id);
+            PaymentResponse paymentResponse = await PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.GetPaymentAsync(paymentResponse.Id);
 
             // Then: Make sure the recurringtype parameter is entered
-            Assert.Equal(RecurringType.First, result.RecurringType);
+            Assert.AreEqual(SequenceType.First, result.SequenceType);
         }
 
-        [Fact]
-        public async Task CanCreatePaymentWithMetaData()
-        {
+        [TestMethod]
+        public async Task CanCreatePaymentWithMetaData() {
+            // If: We create a payment with meta data
+            string metadata = "this is my metadata";
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
+                Description = "Description",
+                RedirectUrl = this.DefaultRedirectUrl,
+                Metadata = metadata
+            };
+
+            // When: We send the payment request to Mollie
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
+
+            // Then: Make sure we get the same json result as metadata
+            Assert.AreEqual(metadata, result.Metadata);
+        }
+
+        [TestMethod]
+        public async Task CanCreatePaymentWithJsonMetaData() {
             // If: We create a payment with meta data
             string json = "{\"order_id\":\"4.40\"}";
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
+                RedirectUrl = this.DefaultRedirectUrl,
                 Metadata = json
             };
 
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
 
             // Then: Make sure we get the same json result as metadata
-            Assert.Equal(json, result.Metadata);
+            Assert.AreEqual(json, result.Metadata);
         }
 
-        [Fact]
-        public async Task CanCreatePaymentWithCustomMetaDataClass()
-        {
+        [TestMethod]
+        public async Task CanCreatePaymentWithCustomMetaDataClass() {
             // If: We create a payment with meta data
-            CustomMetadataClass metadataRequest = new CustomMetadataClass()
-            {
+            CustomMetadataClass metadataRequest = new CustomMetadataClass() {
                 OrderId = 1,
                 Description = "Custom description"
             };
 
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
+                RedirectUrl = this.DefaultRedirectUrl,
             };
             paymentRequest.SetMetadata(metadataRequest);
 
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
             CustomMetadataClass metadataResponse = result.GetMetadata<CustomMetadataClass>();
 
             // Then: Make sure we get the same json result as metadata
-            Assert.NotNull(metadataResponse);
-            Assert.Equal(metadataRequest.OrderId, metadataResponse.OrderId);
-            Assert.Equal(metadataRequest.Description, metadataResponse.Description);
+            Assert.IsNotNull(metadataResponse);
+            Assert.AreEqual(metadataRequest.OrderId, metadataResponse.OrderId);
+            Assert.AreEqual(metadataRequest.Description, metadataResponse.Description);
         }
 
-        [Fact(Skip = "No customers or mandates found. Unable to test recurring payment tests")]
-        public async Task CanCreatePaymentWithMandate()
-        {
+        [TestMethod]
+        public async Task CanCreatePaymentWithMandate() {
             // If: We create a payment with a mandate id
             MandateResponse validMandate = await this.GetFirstValidMandate();
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+            CustomerResponse customer = await CustomerClient.GetCustomerAsync(validMandate.Links.Customer);
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
-                RecurringType = RecurringType.Recurring,
-                CustomerId = validMandate.CustomerId,
+                RedirectUrl = this.DefaultRedirectUrl,
+                SequenceType = SequenceType.Recurring,
+                CustomerId = customer.Id,
                 MandateId = validMandate.Id
             };
 
             // When: We send the payment request to Mollie
-            PaymentResponse result = await fixture.PaymentClient.CreatePaymentAsync(paymentRequest);
+            PaymentResponse result = await PaymentClient.CreatePaymentAsync(paymentRequest);
 
             // Then: Make sure we get the mandate id back in the details
-            Assert.Equal(validMandate.Id, result.MandateId);
+            Assert.AreEqual(validMandate.Id, result.MandateId);
         }
 
-        [Fact]
-        public Task PaymentWithInvalidJsonThrowsException()
-        {
-            // If: We create a payment with invalid json
-            PaymentRequest paymentRequest = new PaymentRequest()
-            {
-                Amount = 100,
+        [TestMethod]
+        public async Task PaymentWithDifferentHttpInstance() {
+            // If: We create a PaymentClient with our own HttpClient instance
+            HttpClient myHttpClientInstance = new HttpClient();
+            PaymentClient paymentClient = new PaymentClient(this.ApiTestKey, myHttpClientInstance);
+            PaymentRequest paymentRequest = new PaymentRequest() {
+                Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = fixture.DefaultRedirectUrl,
-                Metadata = "IAmNotAValidJsonString"
+                RedirectUrl = this.DefaultRedirectUrl
             };
 
-            // When + Then: We send the payment request to Mollie, we expect the exception
-            return Assert.ThrowsAsync<MollieException>(async () => await fixture.PaymentClient.CreatePaymentAsync(paymentRequest));
+            // When: I create a new payment
+            PaymentResponse result = await paymentClient.CreatePaymentAsync(paymentRequest);
+
+            // Then: It should still work... lol
+            Assert.IsNotNull(result);
+            Assert.AreEqual(paymentRequest.Amount.Currency, result.Amount.Currency);
+            Assert.AreEqual(paymentRequest.Amount.Value, result.Amount.Value);
+            Assert.AreEqual(paymentRequest.Description, result.Description);
+            Assert.AreEqual(paymentRequest.RedirectUrl, result.RedirectUrl);
         }
 
-        private async Task<MandateResponse> GetFirstValidMandate()
-        {
-            ListResponse<CustomerResponse> customers = await fixture.CustomerClient.GetCustomerListAsync();
+        private async Task<MandateResponse> GetFirstValidMandate() {
+            ListResponse<CustomerResponse> customers = await CustomerClient.GetCustomerListAsync();
+            if (!customers.Items.Any()) {
+                Assert.Inconclusive("No customers found. Unable to test recurring payment tests");
+            }
 
-            foreach (CustomerResponse customer in customers?.Data)
-            {
-                ListResponse<MandateResponse> customerMandates = await fixture.MandateClient.GetMandateListAsync(customer.Id);
-
-                MandateResponse firstValidMandate = customerMandates?.Data.FirstOrDefault(x => x.Status == MandateStatus.Valid);
-
-                if (firstValidMandate != null)
-                {
+            foreach (CustomerResponse customer in customers.Items) {
+                ListResponse<MandateResponse> customerMandates = await MandateClient.GetMandateListAsync(customer.Id);
+                MandateResponse firstValidMandate = customerMandates.Items.FirstOrDefault(x => x.Status == MandateStatus.Valid);
+                if (firstValidMandate != null) {
                     return firstValidMandate;
                 }
             }
 
+            Assert.Inconclusive("No mandates found. Unable to test recurring payments");
             return null;
         }
     }
 
-    public class CustomMetadataClass
-    {
+    public class CustomMetadataClass {
         public int OrderId { get; set; }
         public string Description { get; set; }
     }

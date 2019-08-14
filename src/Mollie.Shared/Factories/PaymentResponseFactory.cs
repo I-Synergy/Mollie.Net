@@ -1,7 +1,8 @@
 ﻿using Mollie.Enumerations;
 using Mollie.Models.Payment.Response;
+using Mollie.Models.Payment.Response.Specific;
 
-namespace Mollie.Factories
+namespace Mollie.Framework.Factories
 {
     public class PaymentResponseFactory
     {
@@ -17,14 +18,12 @@ namespace Mollie.Factories
                     return new CreditCardPaymentResponse();
                 case PaymentMethods.Ideal:
                     return new IdealPaymentResponse();
-                case PaymentMethods.MisterCash:
-                    return new MisterCashPaymentResponse();
+                case PaymentMethods.Bancontact:
+                    return new BancontactPaymentResponse();
                 case PaymentMethods.PayPal:
                     return new PayPalPaymentResponse();
                 case PaymentMethods.PaySafeCard:
                     return new PaySafeCardPaymentResponse();
-                case PaymentMethods.PodiumCadeaukaart:
-                    return new PodiumCadeauKaartPaymentResponse();
                 case PaymentMethods.Sofort:
                     return new SofortPaymentResponse();
                 case PaymentMethods.Belfius:
@@ -33,6 +32,10 @@ namespace Mollie.Factories
                     return new SepaDirectDebitResponse();
                 case PaymentMethods.Kbc:
                     return new KbcPaymentResponse();
+                case PaymentMethods.GiftCard:
+                    return new GiftcardPaymentResponse();
+                case PaymentMethods.IngHomePay:
+                    return new IngHomePayPaymentResponse();
                 default:
                     return new PaymentResponse();
             }

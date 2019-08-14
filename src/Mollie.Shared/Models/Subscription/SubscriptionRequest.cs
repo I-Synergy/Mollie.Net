@@ -1,19 +1,21 @@
 ﻿using Mollie.Enumerations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 
 namespace Mollie.Models.Subscription
 {
-    public class SubscriptionRequest
+    public class SubscriptionRequest : SubscriptionUpdateRequest
     {
-        public decimal Amount { get; set; }
-        public int? Times { get; set; }
+        /// <summary>
+        /// Interval to wait between charges like 1 month(s) or 14 days.
+        /// </summary>
         public string Interval { get; set; }
-        public DateTime? StartDate { get; set; }
-        public string Description { get; set; }
+
+        /// <summary>
+        /// Optional – The payment method used for this subscription, either forced on creation or null if any of the
+        /// customer's valid mandates may be used.
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public Enumerations.PaymentMethods? Method { get; set; }
-        public string WebhookUrl { get; set; }
+        public PaymentMethods? Method { get; set; }
     }
 }

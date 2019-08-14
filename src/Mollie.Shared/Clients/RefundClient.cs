@@ -1,28 +1,51 @@
-﻿using System.Threading.Tasks;
-using Mollie.Abstract;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Mollie.Client.Abstract;
 using Mollie.Models.List;
 using Mollie.Models.Refund;
-using Mollie.Clients.Base;
+using Mollie.Models.Url;
 
-namespace Mollie.Client {
-    public class RefundClient : ClientBase, IRefundClient {
-        public RefundClient(string apiKey) : base(apiKey) {
+namespace Mollie.Client
+{
+    public class RefundClient : ClientBase, IRefundClient
+    {
+        public RefundClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient)
+        {
         }
 
-        public Task<RefundResponse> CreateRefundAsync(string paymentId) =>
-            CreateRefundAsync(paymentId, new RefundRequest());
+        public async Task<RefundResponse> CreateRefundAsync(string paymentId, RefundRequest refundRequest)
+        {
+            if (refundRequest.Testmode.HasValue)
+            {
+                ValidateApiKeyIsOauthAccesstoken();
+            }
 
-        public Task<RefundResponse> CreateRefundAsync(string paymentId, RefundRequest refundRequest) =>
-            PostAsync<RefundResponse>($"payments/{paymentId}/refunds", refundRequest);
+            return await PostAsync<RefundResponse>($"payments/{paymentId}/refunds", refundRequest).ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<RefundResponse>> GetRefundListAsync(string paymentId, int? offset = null,
-            int? count = null) =>
-            GetListAsync<ListResponse<RefundResponse>>($"payments/{paymentId}/refunds", offset, count);
+        public async Task<ListResponse<RefundResponse>> GetRefundListAsync(string from = null, int? limit = null)
+        {
+            return await GetListAsync<ListResponse<RefundResponse>>($"refunds", from, limit).ConfigureAwait(false);
+        }
 
-        public Task<RefundResponse> GetRefundAsync(string paymentId, string refundId) =>
-            GetAsync<RefundResponse>($"payments/{paymentId}/refunds/{refundId}");
+        public async Task<ListResponse<RefundResponse>> GetRefundListAsync(string paymentId, string from = null, int? limit = null)
+        {
+            return await GetListAsync<ListResponse<RefundResponse>>($"payments/{paymentId}/refunds", from, limit).ConfigureAwait(false);
+        }
 
-        public Task CancelRefundAsync(string paymentId, string refundId) =>
-            DeleteAsync($"payments/{paymentId}/refunds/{refundId}");
+        public async Task<RefundResponse> GetRefundAsync(UrlObjectLink<RefundResponse> url)
+        {
+            return await GetAsync(url).ConfigureAwait(false);
+        }
+
+        public async Task<RefundResponse> GetRefundAsync(string paymentId, string refundId)
+        {
+            return await GetAsync<RefundResponse>($"payments/{paymentId}/refunds/{refundId}").ConfigureAwait(false);
+        }
+
+        public async Task CancelRefundAsync(string paymentId, string refundId)
+        {
+            await DeleteAsync($"payments/{paymentId}/refunds/{refundId}").ConfigureAwait(false);
+        }
     }
 }

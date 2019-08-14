@@ -4,73 +4,77 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Mollie.Abstract;
+using Mollie.Client.Abstract;
 using Mollie.ContractResolvers;
-using Mollie.Extensions;
+using Mollie.Converters;
 using Mollie.Models.Connect;
 using Newtonsoft.Json;
-using Mollie.Converters;
 
-namespace Mollie.Client {
-    public class ConnectClient : IConnectClient {
+namespace Mollie.Client
+{
+    public class ConnectClient : IConnectClient
+    {
         public const string AuthorizeEndPoint = "https://www.mollie.com/oauth2/authorize";
-        public const string TokenEndPoint = "https://api.mollie.com/oauth2/tokens";
+        public const string TokenEndPoint = "https://api.mollie.nl/oauth2/tokens";
         private readonly string _clientId;
+        private readonly string _clientSecret;
         private readonly HttpClient _httpClient;
 
-        public ConnectClient(string clientId, string clientSecret) {
-            if (string.IsNullOrWhiteSpace(clientId)) {
+        public ConnectClient(string clientId, string clientSecret, HttpClient httpClient = null)
+        {
+            if (string.IsNullOrWhiteSpace(clientId))
+            {
                 throw new ArgumentNullException(nameof(clientId));
             }
 
-            if (string.IsNullOrWhiteSpace(clientSecret)) {
+            if (string.IsNullOrWhiteSpace(clientSecret))
+            {
                 throw new ArgumentNullException(nameof(clientSecret));
             }
 
-            this._clientId = clientId;
-            this._httpClient = this.CreateHttpClient(clientId, clientSecret);
+            _httpClient = httpClient ?? new HttpClient();
+            _clientSecret = clientSecret;
+            _clientId = clientId;
         }
 
-        public string GetAuthorizationUrl(string state, List<string> scopes, string redirectUri = null,
-            bool forceApprovalPrompt = false) {
-            var parameters = new Dictionary<string, object> {
-                {"client_id", this._clientId},
+        public string GetAuthorizationUrl(string state, List<string> scopes, string redirectUri = null, bool forceApprovalPrompt = false)
+        {
+            var parameters = new Dictionary<string, string> {
+                {"client_id", _clientId},
                 {"state", state},
                 {"scope", string.Join(" ", scopes)},
                 {"response_type", "code"},
                 {"approval_prompt", forceApprovalPrompt ? "force" : "auto"}
             };
-
-            if (!string.IsNullOrWhiteSpace(redirectUri)) {
-                parameters.Add("redirect_uri", redirectUri);
-            }
+            parameters.AddValueIfNotNullOrEmpty("redirect_uri", redirectUri);
 
             return AuthorizeEndPoint + parameters.ToQueryString();
         }
 
-        public async Task<TokenResponse> GetAccessTokenAsync(TokenRequest request) {
+        public async Task<TokenResponse> GetAccessTokenAsync(TokenRequest request)
+        {
             var jsonData = JsonConvertExtensions.SerializeObjectSnakeCase(request);
+            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            HttpRequestMessage httpRequest = CreateHttpRequest(HttpMethod.Post, TokenEndPoint, content);
 
-            var response = await this._httpClient
-                .PostAsync(TokenEndPoint, new StringContent(jsonData, Encoding.UTF8, "application/json"))
-                .ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(httpRequest).ConfigureAwait(false);
             var resultContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            return JsonConvert.DeserializeObject<TokenResponse>(resultContent, new JsonSerializerSettings {ContractResolver = new SnakeCasePropertyNamesContractResolver()});
+            return JsonConvert.DeserializeObject<TokenResponse>(resultContent, new JsonSerializerSettings { ContractResolver = new SnakeCasePropertyNamesContractResolver() });
         }
 
-        /// <summary>
-        ///     Creates a new rest client for the Mollie API with basic authentication
-        /// </summary>
-        private HttpClient CreateHttpClient(string clientId, string clientSecret) {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", this.Base64Encode($"{clientId}:{clientSecret}"));
-            return httpClient;
+        private HttpRequestMessage CreateHttpRequest(HttpMethod method, string url, HttpContent content = null)
+        {
+            HttpRequestMessage httpRequest = new HttpRequestMessage(method, new Uri(url));
+            httpRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", Base64Encode($"{_clientId}:{_clientSecret}"));
+            httpRequest.Content = content;
+
+            return httpRequest;
         }
 
-        private string Base64Encode(string value) {
+        private string Base64Encode(string value)
+        {
             var bytes = Encoding.UTF8.GetBytes(value);
             return Convert.ToBase64String(bytes);
         }

@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Text;
 
-namespace Mollie.Extensions
+namespace System.Collections.Generic
 {
-    internal static class DictionaryExtensions
+    public static class DictionaryExtensions
     {
-        public static string ToQueryString(this Dictionary<string, object> parameters)
+        public static string ToQueryString(this Dictionary<string, string> parameters)
         {
             if (!parameters.Any())
                 return string.Empty;
 
-            return "?" + string.Join("&", parameters.Select(x => $"{WebUtility.UrlEncode(x.Key)}={WebUtility.UrlEncode(x.Value.ToString())}"));
+            return "?" + string.Join("&", parameters.Select(x => $"{WebUtility.UrlEncode(x.Key)}={WebUtility.UrlEncode(x.Value)}"));
+        }
+
+        public static void AddValueIfNotNullOrEmpty(this IDictionary<string, string> dictionary, string key, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                dictionary.Add(key, value);
+            }
         }
     }
 }

@@ -1,11 +1,18 @@
 using Mollie.Enumerations;
 
-namespace Mollie.Models.Payment.Request {
-    public class IdealPaymentRequest : PaymentRequest {
-        public IdealPaymentRequest() {
-            this.Method = Enumerations.PaymentMethods.Ideal;
+namespace Mollie.Models.Payment.Request
+{
+    public class IdealPaymentRequest : PaymentRequest
+    {
+        public IdealPaymentRequest()
+        {
+            Method = PaymentMethods.Ideal;
         }
 
+        /// <summary>
+        /// (Optional) iDEAL issuer id. The id could for example be ideal_INGBNL2A. The returned paymentUrl will then directly
+        /// point to the ING web site.
+        /// </summary>
         public string Issuer { get; set; }
     }
 }

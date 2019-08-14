@@ -1,44 +1,60 @@
-﻿using System.Threading.Tasks;
-using Mollie.Abstract;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Mollie.Client.Abstract;
 using Mollie.Models.Chargeback;
 using Mollie.Models.List;
 using Mollie.Models.Payment.Response;
 using Mollie.Models.Refund;
 using Mollie.Models.Settlement;
-using Mollie.Client.Base;
+using Mollie.Models.Url;
 
-namespace Mollie.Client {
-    public class SettlementsClient : OAuthClientBase, ISettlementsClient {
-        public SettlementsClient(string oauthAccessToken) : base(oauthAccessToken) {
+namespace Mollie.Client
+{
+    public class SettlementsClient : OauthClientBase, ISettlementsClient
+    {
+        public SettlementsClient(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
+        {
         }
 
-        public Task<SettlementResponse> GetSettlementAsync(string settlementId) =>
-            GetAsync<SettlementResponse>($"settlements/{settlementId}");
+        public async Task<SettlementResponse> GetSettlementAsync(string settlementId)
+        {
+            return await GetAsync<SettlementResponse>($"settlements/{settlementId}").ConfigureAwait(false);
+        }
 
-        public Task<SettlementResponse> GetNextSettlement() =>
-            GetAsync<SettlementResponse>($"settlements/next");
+        public async Task<SettlementResponse> GetNextSettlement()
+        {
+            return await GetAsync<SettlementResponse>($"settlements/next").ConfigureAwait(false);
+        }
 
-        public Task<SettlementResponse> GetOpenBalance() =>
-            GetAsync<SettlementResponse>($"settlements/open");
+        public async Task<SettlementResponse> GetOpenBalance()
+        {
+            return await GetAsync<SettlementResponse>($"settlements/open").ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<SettlementResponse>> GetSettlementsListAsync(string reference = null,
-            int? offset = null, int? count = null)
+        public async Task<ListResponse<SettlementResponse>> GetSettlementsListAsync(string reference = null, string offset = null, int? count = null)
         {
             var queryString = !string.IsNullOrWhiteSpace(reference) ? $"?reference={reference}" : string.Empty;
-            return GetListAsync<ListResponse<SettlementResponse>>($"settlements{queryString}", offset, count);
+            return await GetListAsync<ListResponse<SettlementResponse>>($"settlements{queryString}", offset, count).ConfigureAwait(false);
         }
 
-        public Task<ListResponse<PaymentResponse>> GetSettlementPaymentsListAsync(string settlementId,
-            int? offset = null, int? count = null) => 
-            GetListAsync<ListResponse<PaymentResponse>>($"settlements/{settlementId}/payments", offset, count);
+        public async Task<ListResponse<PaymentResponse>> GetSettlementPaymentsListAsync(string settlementId, string offset = null, int? count = null)
+        {
+            return await GetListAsync<ListResponse<PaymentResponse>>($"settlements/{settlementId}/payments", offset, count).ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<RefundResponse>> GetSettlementRefundsListAsync(string settlementId,
-            int? offset = null, int? count = null) =>
-            GetListAsync<ListResponse<RefundResponse>>($"settlements/{settlementId}/refunds", offset, count);
+        public async Task<ListResponse<RefundResponse>> GetSettlementRefundsListAsync(string settlementId, string offset = null, int? count = null)
+        {
+            return await GetListAsync<ListResponse<RefundResponse>>($"settlements/{settlementId}/refunds", offset, count).ConfigureAwait(false);
+        }
 
-        public Task<ListResponse<ChargebackResponse>> GetSettlementChargebacksListAsync(string settlementId,
-            int? offset = null, int? count = null) =>
-            GetListAsync<ListResponse<ChargebackResponse>>($"settlements/{settlementId}/chargebacks", offset,
-                    count);
+        public async Task<ListResponse<ChargebackResponse>> GetSettlementChargebacksListAsync(string settlementId, string offset = null, int? count = null)
+        {
+            return await GetListAsync<ListResponse<ChargebackResponse>>($"settlements/{settlementId}/chargebacks", offset, count).ConfigureAwait(false);
+        }
+
+        public async Task<SettlementResponse> GetSettlementAsync(UrlObjectLink<SettlementResponse> url)
+        {
+            return await GetAsync(url).ConfigureAwait(false);
+        }
     }
 }
