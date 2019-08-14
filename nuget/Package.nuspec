@@ -12,6 +12,8 @@
     <copyright>Copyright 2008-2017</copyright>
     <tags>Mollie mollie.com .net c# payment iDeal</tags>
     <projectUrl>https://github.com/I-Synergy/Mollie.Net</projectUrl>
+    <repository type="git" url="https://github.com/I-Synergy/Mollie.Net" />
+    <license type="expression">MIT</license>
 
     <dependencies>
       <group targetFramework=".NETStandard1.1">
