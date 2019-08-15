@@ -19,6 +19,11 @@ jobs:
         filePath: ./build/updatebuildnumber.ps1
         arguments: '-previousBuildNumber "$env:BUILD_BUILDNUMBER"'
 
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet 5.1.0'
+      inputs:
+        versionSpec: 5.1.0
+
     - task: NuGetCommand@2
       displayName: 'NuGet pack - Mollie'
       inputs:
