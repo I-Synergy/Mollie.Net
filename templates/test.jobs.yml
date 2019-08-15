@@ -2,11 +2,11 @@
 
 jobs:
 - job: TestsJob
-  displayName: 'Test Mollie.Net libraries'
+  displayName: 'Test Mollie libraries'
   container: msbuildcontainer
   steps:
     - task: DotNetCoreCLI@2
-      displayName: 'Mollie.Net Test'
+      displayName: 'Mollie Test'
       inputs:
         command: test
         projects: 'tests\Mollie.Tests\Mollie.Tests.csproj'

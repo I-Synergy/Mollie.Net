@@ -20,14 +20,14 @@ jobs:
         arguments: '-previousBuildNumber "$env:BUILD_BUILDNUMBER"'
 
     - task: NuGetCommand@2
-      displayName: 'NuGet pack - Mollie.Net'
+      displayName: 'NuGet pack - Mollie'
       inputs:
         command: pack
         packagesToPack: 'nuget/Package.nuspec'
         buildProperties: 'Version=$(build.buildNumber);PackageVersion=$(build.buildNumber);AssemblyFolder=$(System.ArtifactsDirectory)\Output;BuildConfiguration=$(BuildConfiguration)'
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: Mollie.Net'
+      displayName: 'Publish Artifact: Mollie'
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)\Mollie.Net.$(build.buildNumber).nupkg'
         artifactName: Upload

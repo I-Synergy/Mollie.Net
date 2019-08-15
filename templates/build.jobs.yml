@@ -2,7 +2,7 @@
 
 jobs:
 - job: BuildJob
-  displayName: 'Build I-Synergy Framework libraries'
+  displayName: 'Build Mollie libraries'
   container: msbuildcontainer
   steps:
     - task: NuGetToolInstaller@1
