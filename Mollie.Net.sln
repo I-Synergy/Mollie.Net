@@ -13,7 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie.Tests", "tests\Molli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47A8429F-3325-4456-8638-055391ED4787}"
 	ProjectSection(SolutionItems) = preProject
-		build.ps1 = build.ps1
+		azure-pipelines.cd.yml = azure-pipelines.cd.yml
+		azure-pipelines.ci.yml = azure-pipelines.ci.yml
 		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
@@ -31,7 +32,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{8959900D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{C1B9293E-17FB-44CA-A8BE-C8F096184848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mollie.Sample", "sample\Mollie.Sample\Mollie.Sample.csproj", "{950B3289-3A87-4C92-8634-7A8A80B1A1B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mollie.Sample", "sample\Mollie.Sample\Mollie.Sample.csproj", "{950B3289-3A87-4C92-8634-7A8A80B1A1B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{85AF6F1C-1C4C-4A71-91E4-F23602444F3B}"
+	ProjectSection(SolutionItems) = preProject
+		templates\artifacts.jobs.yml = templates\artifacts.jobs.yml
+		templates\build.jobs.yml = templates\build.jobs.yml
+		templates\test.jobs.yml = templates\test.jobs.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C7739097-CBAB-4F0D-9CA5-5B3DCDF01522}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.ps1 = build\build.ps1
+		build\updatebuildnumber.ps1 = build\updatebuildnumber.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -68,6 +82,7 @@ Global
 		{ECF20A0A-A442-4CB8-B1A9-C8095D81A34C} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{C7BFCD6B-6002-4BB7-9AAA-9B14C94872AE} = {39DF8E3F-7AC0-4AAE-A97F-3F1CB9598210}
 		{950B3289-3A87-4C92-8634-7A8A80B1A1B1} = {C1B9293E-17FB-44CA-A8BE-C8F096184848}
+		{85AF6F1C-1C4C-4A71-91E4-F23602444F3B} = {47A8429F-3325-4456-8638-055391ED4787}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6882725-666D-4450-B9E6-D8A956E74E11}

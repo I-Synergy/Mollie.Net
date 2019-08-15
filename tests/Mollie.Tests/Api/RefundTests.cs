@@ -78,6 +78,7 @@ namespace Mollie.Tests.Api
         }
 
         [TestMethod]
+        [Ignore("Outcome depends on payment methods active in portal")]
         public async Task CanRetrieveRefundList() {
             // If: We create a payment
             PaymentResponse payment = await this.CreatePayment();

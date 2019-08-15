@@ -1,0 +1,33 @@
+# File: pipelines/artifacts.jobs.yml
+
+jobs:
+- job: ArtifactsJob
+  displayName: 'Process artifacts Mollie libraries'
+  container: msbuildcontainer
+  steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'Output'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
+    - task: PowerShell@2
+      displayName: 'PowerShell Script - Update buildnumber'
+      inputs:
+        targetType: filePath
+        filePath: ./build/updatebuildnumber.ps1
+        arguments: '-previousBuildNumber "$env:BUILD_BUILDNUMBER"'
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet pack - Mollie.Net'
+      inputs:
+        command: pack
+        packagesToPack: 'nuget/Package.nuspec'
+        buildProperties: 'Version=$(build.buildNumber);PackageVersion=$(build.buildNumber);AssemblyFolder=$(System.ArtifactsDirectory)\Output;BuildConfiguration=$(BuildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: Mollie.Net'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\Mollie.Net.$(build.buildNumber).nupkg'
+        artifactName: Upload

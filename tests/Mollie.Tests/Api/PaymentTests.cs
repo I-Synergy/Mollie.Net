@@ -105,6 +105,7 @@ namespace Mollie.Tests.Api
             Assert.AreEqual(paymentRequest.WebhookUrl, result.WebhookUrl);
         }
 
+        [Ignore("Outcome depends on payment methods active in portal")]
         [DataTestMethod]
         [DataRow(typeof(IdealPaymentRequest), PaymentMethods.Ideal, typeof(IdealPaymentResponse))]
         [DataRow(typeof(CreditCardPaymentRequest), PaymentMethods.CreditCard, typeof(CreditCardPaymentResponse))]

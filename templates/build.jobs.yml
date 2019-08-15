@@ -1,0 +1,51 @@
+# File: pipelines/build.jobs.yml
+
+jobs:
+- job: BuildJob
+  displayName: 'Build I-Synergy Framework libraries'
+  container: msbuildcontainer
+  steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet 4.9.1'
+      inputs:
+        versionSpec: 4.9.1
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Mollie.NetStandard1.1 - dotnet restore'
+      inputs:
+        command: restore
+        projects: 'src\Mollie.NetStandard1.1\Mollie.NetStandard1.1.csproj'
+        feedsToUse: config
+        nugetConfigPath: nuget.config
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Mollie.NetStandard1.1 - dotnet build'
+      inputs:
+        command: build
+        projects: 'src\Mollie.NetStandard1.1\Mollie.NetStandard1.1.csproj'
+        arguments: '-c $(BuildConfiguration) -p:Version=$(build.buildNumber)'
+        feedsToUse: config
+        nugetConfigPath: nuget.config
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Mollie.NetStandard2.0 - dotnet restore'
+      inputs:
+        command: restore
+        projects: 'src\Mollie.NetStandard2.0\Mollie.NetStandard2.0.csproj'
+        feedsToUse: config
+        nugetConfigPath: nuget.config
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Mollie.NetStandard2.0 - dotnet build'
+      inputs:
+        command: build
+        projects: 'src\Mollie.NetStandard2.0\Mollie.NetStandard2.0.csproj'
+        arguments: '-c $(BuildConfiguration) -p:Version=$(build.buildNumber)'
+        feedsToUse: config
+        nugetConfigPath: nuget.config
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifacts'
+      inputs:
+        pathtoPublish: '$(System.DefaultWorkingDirectory)\Output'
+        artifactName: Output

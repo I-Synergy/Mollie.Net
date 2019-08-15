@@ -21,6 +21,7 @@ namespace Mollie.Tests.Api
             Assert.IsNotNull(response.Items);
         }
 
+        [Ignore("Outcome depends on payment methods active in portal")]
         [DataTestMethod]
         [DataRow(PaymentMethods.Ideal)]
         [DataRow(PaymentMethods.CreditCard)]
