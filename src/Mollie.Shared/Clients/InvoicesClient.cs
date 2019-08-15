@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Mollie.Models.Invoice;
 using Mollie.Models.List;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class InvoicesClient : OauthClientBase, IInvoicesClient
     {
-        public InvoicesClient(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
+        public InvoicesClient(IClientService clientService) : base(clientService)
         {
         }
 
@@ -19,11 +19,11 @@ namespace Mollie.Client
             bool includeSettlements = false)
         {
             var includes = BuildIncludeParameter(includeLines, includeSettlements);
-            return GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}");
+            return ClientService.GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}");
         }
 
         public Task<InvoiceResponse> GetInvoiceAsync(UrlObjectLink<InvoiceResponse> url) =>
-            GetAsync(url);
+            ClientService.GetAsync(url);
 
         public Task<ListResponse<InvoiceResponse>> GetInvoiceListAsync(string reference = null, int? year = null, string from = null, int? limit = null, bool includeLines = false, bool includeSettlements = false)
         {
@@ -31,7 +31,7 @@ namespace Mollie.Client
             parameters.AddValueIfNotNullOrEmpty(nameof(reference), reference);
             parameters.AddValueIfNotNullOrEmpty(nameof(year), Convert.ToString(year));
 
-            return GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters);
+            return ClientService.GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters);
         }
 
         private Dictionary<string, string> BuildIncludeParameter(bool includeLines = false, bool includeSettlements = false)

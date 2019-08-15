@@ -1,4 +1,5 @@
 ﻿using Mollie.Client;
+using Mollie.Services;
 using System;
 
 namespace Mollie.Tests.Api
@@ -10,6 +11,7 @@ namespace Mollie.Tests.Api
 
         public readonly string ApiTestKey = "test_yGJ4USbh3BWV5AkGbdh4NG4EG2UdaF"; // Insert you API key here
 
+        public readonly IClientService ClientService;
         public readonly IPaymentClient PaymentClient;
         public readonly IPaymentMethodClient PaymentMethodClient;
         public readonly IRefundClient RefundClient;
@@ -23,14 +25,15 @@ namespace Mollie.Tests.Api
         {
             EnsureTestApiKey();
 
-            PaymentClient = new PaymentClient(ApiTestKey);
-            PaymentMethodClient = new PaymentMethodClient(ApiTestKey);
-            RefundClient = new RefundClient(ApiTestKey);
-            SubscriptionClient = new SubscriptionClient(ApiTestKey);
-            MandateClient = new MandateClient(ApiTestKey);
-            CustomerClient = new CustomerClient(ApiTestKey);
-            ProfileClient = new ProfileClient(ApiTestKey);
-            OrderClient = new OrderClient(ApiTestKey);
+            ClientService = new ClientService(ApiTestKey);
+            PaymentClient = new PaymentClient(ClientService);
+            PaymentMethodClient = new PaymentMethodClient(ClientService);
+            RefundClient = new RefundClient(ClientService);
+            SubscriptionClient = new SubscriptionClient(ClientService);
+            MandateClient = new MandateClient(ClientService);
+            CustomerClient = new CustomerClient(ClientService);
+            ProfileClient = new ProfileClient(ClientService);
+            OrderClient = new OrderClient(ClientService);
         }
 
         public void Dispose()

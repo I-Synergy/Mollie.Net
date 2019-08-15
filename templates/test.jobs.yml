@@ -6,8 +6,17 @@ jobs:
   container: msbuildcontainer
   steps:
     - task: DotNetCoreCLI@2
-      displayName: 'Mollie Test'
+      displayName: 'Mollie .Net Standard1.1 Test'
+      continueOnError: true
       inputs:
         command: test
-        projects: 'tests\Mollie.Tests\Mollie.Tests.csproj'
+        projects: 'tests\Mollie.NetStandard1.1.Tests\Mollie.NetStandard1.1.Tests.csproj'
+        arguments: '-c $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Mollie .Net Standard2.0 Test'
+      continueOnError: true
+      inputs:
+        command: test
+        projects: 'tests\Mollie.NetStandard2.0.Tests\Mollie.NetStandard2.0.Tests.csproj'
         arguments: '-c $(BuildConfiguration)'
