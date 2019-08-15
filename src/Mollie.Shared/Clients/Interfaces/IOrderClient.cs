@@ -5,7 +5,7 @@ using Mollie.Models.Payment.Response;
 using Mollie.Models.Refund;
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IOrderClient
     {

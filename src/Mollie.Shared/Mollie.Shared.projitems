@@ -9,21 +9,21 @@
     <Import_RootNamespace>Mollie.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IChargebacksClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IConnectClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ICustomerClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IInvoicesClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMandateClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMollieClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IOrderClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IOrganizationsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentMethodClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPermissionsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IProfileClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IRefundClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISettlementsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISubscriptionClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IChargebacksClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IConnectClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ICustomerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IInvoicesClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMandateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMollieClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrderClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrganizationsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPaymentClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPaymentMethodClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPermissionsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IProfileClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IRefundClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ISettlementsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ISubscriptionClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ClientBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ConnectClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\OauthClientBase.cs" />

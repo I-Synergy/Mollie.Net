@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Mollie.Models;
 using Mollie.Models.List;
 using Mollie.Models.Url;
 using Mollie.Sample.Models;
 
-namespace Mollie.Sample.Services {
+namespace Mollie.Sample.Services
+{
     public abstract class OverviewClientBase<T> where T : IResponseObject {
         private readonly IMapper _mapper;
 

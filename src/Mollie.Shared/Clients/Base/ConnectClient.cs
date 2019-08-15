@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.ContractResolvers;
 using Mollie.Converters;
 using Mollie.Models.Connect;

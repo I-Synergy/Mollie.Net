@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.List;
 
 using Mollie.Models.Permission;
@@ -14,19 +13,13 @@ namespace Mollie.Client
         {
         }
 
-        public async Task<PermissionResponse> GetPermissionAsync(string permissionId)
-        {
-            return await GetAsync<PermissionResponse>($"permissions/{permissionId}").ConfigureAwait(false);
-        }
+        public Task<PermissionResponse> GetPermissionAsync(string permissionId) =>
+            GetAsync<PermissionResponse>($"permissions/{permissionId}");
 
-        public async Task<PermissionResponse> GetPermissionAsync(UrlObjectLink<PermissionResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<PermissionResponse> GetPermissionAsync(UrlObjectLink<PermissionResponse> url) =>
+            GetAsync(url);
 
-        public async Task<ListResponse<PermissionResponse>> GetPermissionListAsync()
-        {
-            return await GetListAsync<ListResponse<PermissionResponse>>("permissions", null, null).ConfigureAwait(false);
-        }
+        public Task<ListResponse<PermissionResponse>> GetPermissionListAsync() =>
+            GetListAsync<ListResponse<PermissionResponse>>("permissions", null, null);
     }
 }

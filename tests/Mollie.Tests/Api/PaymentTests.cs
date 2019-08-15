@@ -47,7 +47,7 @@ namespace Mollie.Tests.Api
             IdealPaymentRequest paymentRequest = new IdealPaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl
+                RedirectUrl = DefaultRedirectUrl
             };
             await PaymentClient.CreatePaymentAsync(paymentRequest);
 
@@ -64,7 +64,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl
+                RedirectUrl = DefaultRedirectUrl
             };
 
             // When: We send the payment request to Mollie
@@ -84,11 +84,11 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 Locale = Locale.nl_NL,
                 Metadata = "{\"firstName\":\"John\",\"lastName\":\"Doe\"}",
                 Method = PaymentMethods.BankTransfer,
-                WebhookUrl = this.DefaultWebhookUrl
+                WebhookUrl = DefaultWebhookUrl
             };
 
             // When: We send the payment request to Mollie
@@ -123,7 +123,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = (PaymentRequest) Activator.CreateInstance(paymentType);
             paymentRequest.Amount = new Amount(Currency.EUR, "100.00");
             paymentRequest.Description = "Description";
-            paymentRequest.RedirectUrl = this.DefaultRedirectUrl;
+            paymentRequest.RedirectUrl = DefaultRedirectUrl;
             paymentRequest.Method = paymentMethod;
 
             // Set required billing email for Przelewy24
@@ -150,7 +150,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 Locale = Locale.de_DE
             };
 
@@ -170,12 +170,12 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCreateRecurringPaymentAndRetrieveIt() {
             // If: we create a new recurring payment
-            MandateResponse mandate = await this.GetFirstValidMandate();
+            MandateResponse mandate = await GetFirstValidMandate();
             CustomerResponse customer = await CustomerClient.GetCustomerAsync(mandate.Links.Customer);
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 SequenceType = SequenceType.First,
                 CustomerId = customer.Id
             };
@@ -195,7 +195,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 Metadata = metadata
             };
 
@@ -213,7 +213,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 Metadata = json
             };
 
@@ -235,7 +235,7 @@ namespace Mollie.Tests.Api
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
             };
             paymentRequest.SetMetadata(metadataRequest);
 
@@ -252,12 +252,12 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCreatePaymentWithMandate() {
             // If: We create a payment with a mandate id
-            MandateResponse validMandate = await this.GetFirstValidMandate();
+            MandateResponse validMandate = await GetFirstValidMandate();
             CustomerResponse customer = await CustomerClient.GetCustomerAsync(validMandate.Links.Customer);
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl,
+                RedirectUrl = DefaultRedirectUrl,
                 SequenceType = SequenceType.Recurring,
                 CustomerId = customer.Id,
                 MandateId = validMandate.Id
@@ -274,11 +274,11 @@ namespace Mollie.Tests.Api
         public async Task PaymentWithDifferentHttpInstance() {
             // If: We create a PaymentClient with our own HttpClient instance
             HttpClient myHttpClientInstance = new HttpClient();
-            PaymentClient paymentClient = new PaymentClient(this.ApiTestKey, myHttpClientInstance);
+            PaymentClient paymentClient = new PaymentClient(ApiTestKey, myHttpClientInstance);
             PaymentRequest paymentRequest = new PaymentRequest() {
                 Amount = new Amount(Currency.EUR, "100.00"),
                 Description = "Description",
-                RedirectUrl = this.DefaultRedirectUrl
+                RedirectUrl = DefaultRedirectUrl
             };
 
             // When: I create a new payment

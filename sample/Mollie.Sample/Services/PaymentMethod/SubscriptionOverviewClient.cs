@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Mollie.Client.Abstract;
 using Mollie.Models.PaymentMethod;
 using Mollie.Sample.Models;
 
-namespace Mollie.Sample.Services.PaymentMethod {
+namespace Mollie.Sample.Services.PaymentMethod
+{
     public class PaymentMethodOverviewClient : OverviewClientBase<PaymentMethodResponse>, IPaymentMethodOverviewClient {
         private readonly IPaymentMethodClient _paymentMethodClient;
 

@@ -17,7 +17,7 @@ namespace Mollie.Tests.Api
         public async Task CanCreateRefund() {
             // If: We create a payment
             string amount = "100.00";
-            PaymentResponse payment = await this.CreatePayment(amount);
+            PaymentResponse payment = await CreatePayment(amount);
 
             // We can only test this if you make the payment using the payment.Links.Checkout property. 
             // If you don't do this, this test will fail because we can only refund payments that have been paid
@@ -37,7 +37,7 @@ namespace Mollie.Tests.Api
         [Ignore("We can only test this in debug mode, because we actually have to use the PaymentUrl to make the payment, since Mollie can only refund payments that have been paid")]
         public async Task CanCreatePartialRefund() {
             // If: We create a payment of 250 euro
-            PaymentResponse payment = await this.CreatePayment("250.00");
+            PaymentResponse payment = await CreatePayment("250.00");
 
             // We can only test this if you make the payment using the payment.Links.PaymentUrl property. 
             // If you don't do this, this test will fail because we can only refund payments that have been paid
@@ -57,7 +57,7 @@ namespace Mollie.Tests.Api
         [Ignore("We can only test this in debug mode, because we actually have to use the PaymentUrl to make the payment, since Mollie can only refund payments that have been paid")]
         public async Task CanRetrieveSingleRefund() {
             // If: We create a payment
-            PaymentResponse payment = await this.CreatePayment();
+            PaymentResponse payment = await CreatePayment();
             // We can only test this if you make the payment using the payment.Links.PaymentUrl property. 
             // If you don't do this, this test will fail because we can only refund payments that have been paid
             Debugger.Break();
@@ -81,7 +81,7 @@ namespace Mollie.Tests.Api
         [Ignore("Outcome depends on payment methods active in portal")]
         public async Task CanRetrieveRefundList() {
             // If: We create a payment
-            PaymentResponse payment = await this.CreatePayment();
+            PaymentResponse payment = await CreatePayment();
 
             // When: Retrieve refund list for this payment
             ListResponse<RefundResponse> refundList = await RefundClient.GetRefundListAsync(payment.Id);
@@ -92,10 +92,12 @@ namespace Mollie.Tests.Api
         }
 
         private async Task<PaymentResponse> CreatePayment(string amount = "100.00") {
-            PaymentRequest paymentRequest = new CreditCardPaymentRequest();
-            paymentRequest.Amount = new Amount(Currency.EUR, amount);
-            paymentRequest.Description = "Description";
-            paymentRequest.RedirectUrl = this.DefaultRedirectUrl;
+            PaymentRequest paymentRequest = new CreditCardPaymentRequest
+            {
+                Amount = new Amount(Currency.EUR, amount),
+                Description = "Description",
+                RedirectUrl = DefaultRedirectUrl
+            };
 
             return await PaymentClient.CreatePaymentAsync(paymentRequest);
         }

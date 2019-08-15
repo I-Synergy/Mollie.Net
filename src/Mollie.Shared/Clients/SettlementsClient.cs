@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.Chargeback;
 using Mollie.Models.List;
 using Mollie.Models.Payment.Response;
@@ -16,45 +15,31 @@ namespace Mollie.Client
         {
         }
 
-        public async Task<SettlementResponse> GetSettlementAsync(string settlementId)
-        {
-            return await GetAsync<SettlementResponse>($"settlements/{settlementId}").ConfigureAwait(false);
-        }
+        public Task<SettlementResponse> GetSettlementAsync(string settlementId) =>
+            GetAsync<SettlementResponse>($"settlements/{settlementId}");
 
-        public async Task<SettlementResponse> GetNextSettlement()
-        {
-            return await GetAsync<SettlementResponse>($"settlements/next").ConfigureAwait(false);
-        }
+        public Task<SettlementResponse> GetNextSettlementAsync() =>
+            GetAsync<SettlementResponse>($"settlements/next");
 
-        public async Task<SettlementResponse> GetOpenBalance()
-        {
-            return await GetAsync<SettlementResponse>($"settlements/open").ConfigureAwait(false);
-        }
+        public Task<SettlementResponse> GetOpenBalanceAsync() =>
+            GetAsync<SettlementResponse>($"settlements/open");
 
-        public async Task<ListResponse<SettlementResponse>> GetSettlementsListAsync(string reference = null, string offset = null, int? count = null)
+        public Task<ListResponse<SettlementResponse>> GetSettlementsListAsync(string reference = null, string offset = null, int? count = null)
         {
             var queryString = !string.IsNullOrWhiteSpace(reference) ? $"?reference={reference}" : string.Empty;
-            return await GetListAsync<ListResponse<SettlementResponse>>($"settlements{queryString}", offset, count).ConfigureAwait(false);
+            return GetListAsync<ListResponse<SettlementResponse>>($"settlements{queryString}", offset, count);
         }
 
-        public async Task<ListResponse<PaymentResponse>> GetSettlementPaymentsListAsync(string settlementId, string offset = null, int? count = null)
-        {
-            return await GetListAsync<ListResponse<PaymentResponse>>($"settlements/{settlementId}/payments", offset, count).ConfigureAwait(false);
-        }
+        public Task<ListResponse<PaymentResponse>> GetSettlementPaymentsListAsync(string settlementId, string offset = null, int? count = null) =>
+            GetListAsync<ListResponse<PaymentResponse>>($"settlements/{settlementId}/payments", offset, count);
 
-        public async Task<ListResponse<RefundResponse>> GetSettlementRefundsListAsync(string settlementId, string offset = null, int? count = null)
-        {
-            return await GetListAsync<ListResponse<RefundResponse>>($"settlements/{settlementId}/refunds", offset, count).ConfigureAwait(false);
-        }
+        public Task<ListResponse<RefundResponse>> GetSettlementRefundsListAsync(string settlementId, string offset = null, int? count = null) =>
+            GetListAsync<ListResponse<RefundResponse>>($"settlements/{settlementId}/refunds", offset, count);
 
-        public async Task<ListResponse<ChargebackResponse>> GetSettlementChargebacksListAsync(string settlementId, string offset = null, int? count = null)
-        {
-            return await GetListAsync<ListResponse<ChargebackResponse>>($"settlements/{settlementId}/chargebacks", offset, count).ConfigureAwait(false);
-        }
+        public Task<ListResponse<ChargebackResponse>> GetSettlementChargebacksListAsync(string settlementId, string offset = null, int? count = null) =>
+            GetListAsync<ListResponse<ChargebackResponse>>($"settlements/{settlementId}/chargebacks", offset, count);
 
-        public async Task<SettlementResponse> GetSettlementAsync(UrlObjectLink<SettlementResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<SettlementResponse> GetSettlementAsync(UrlObjectLink<SettlementResponse> url) =>
+            GetAsync(url);
     }
 }

@@ -4,7 +4,7 @@ using Mollie.Models.List;
 
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IInvoicesClient
     {

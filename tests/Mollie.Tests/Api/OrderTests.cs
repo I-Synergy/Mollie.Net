@@ -16,7 +16,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCreateOrderWithOnlyRequiredFields() {
             // If: we create a order request with only the required parameters
-            OrderRequest orderRequest = this.CreateOrderRequestWithOnlyRequiredFields();
+            OrderRequest orderRequest = CreateOrderRequestWithOnlyRequiredFields();
 
             // When: We send the order request to Mollie
             OrderResponse result = await OrderClient.CreateOrderAsync(orderRequest);
@@ -31,7 +31,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanRetrieveOrderAfterCreationOrder() {
             // If: we create a new order
-            OrderRequest orderRequest = this.CreateOrderRequestWithOnlyRequiredFields();
+            OrderRequest orderRequest = CreateOrderRequestWithOnlyRequiredFields();
             OrderResponse createdOrder = await OrderClient.CreateOrderAsync(orderRequest);
 
             // When: We attempt to retrieve the order
@@ -45,7 +45,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanUpdateExistingOrder() {
             // If: we create a new order
-            OrderRequest orderRequest = this.CreateOrderRequestWithOnlyRequiredFields();
+            OrderRequest orderRequest = CreateOrderRequestWithOnlyRequiredFields();
             OrderResponse createdOrder = await OrderClient.CreateOrderAsync(orderRequest);
 
             // When: We attempt to update the order
@@ -64,7 +64,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCancelCreatedOrder() {
             // If: we create a new order
-            OrderRequest orderRequest = this.CreateOrderRequestWithOnlyRequiredFields();
+            OrderRequest orderRequest = CreateOrderRequestWithOnlyRequiredFields();
             OrderResponse createdOrder = await OrderClient.CreateOrderAsync(orderRequest);
 
             // When: We attempt to cancel the order and then retrieve it
@@ -78,7 +78,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanUpdateOrderLine() {
             // If: we create a new order
-            OrderRequest orderRequest = this.CreateOrderRequestWithOnlyRequiredFields();
+            OrderRequest orderRequest = CreateOrderRequestWithOnlyRequiredFields();
             OrderResponse createdOrder = await OrderClient.CreateOrderAsync(orderRequest);
 
             // When: We update the order line

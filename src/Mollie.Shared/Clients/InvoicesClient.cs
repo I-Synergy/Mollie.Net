@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.Invoice;
 using Mollie.Models.List;
 using Mollie.Models.Url;
@@ -16,25 +15,23 @@ namespace Mollie.Client
         {
         }
 
-        public async Task<InvoiceResponse> GetInvoiceAsync(string invoiceId, bool includeLines = false,
+        public Task<InvoiceResponse> GetInvoiceAsync(string invoiceId, bool includeLines = false,
             bool includeSettlements = false)
         {
             var includes = BuildIncludeParameter(includeLines, includeSettlements);
-            return await GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}").ConfigureAwait(false);
+            return GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}");
         }
 
-        public async Task<InvoiceResponse> GetInvoiceAsync(UrlObjectLink<InvoiceResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<InvoiceResponse> GetInvoiceAsync(UrlObjectLink<InvoiceResponse> url) =>
+            GetAsync(url);
 
-        public async Task<ListResponse<InvoiceResponse>> GetInvoiceListAsync(string reference = null, int? year = null, string from = null, int? limit = null, bool includeLines = false, bool includeSettlements = false)
+        public Task<ListResponse<InvoiceResponse>> GetInvoiceListAsync(string reference = null, int? year = null, string from = null, int? limit = null, bool includeLines = false, bool includeSettlements = false)
         {
             var parameters = BuildIncludeParameter(includeLines, includeSettlements);
             parameters.AddValueIfNotNullOrEmpty(nameof(reference), reference);
             parameters.AddValueIfNotNullOrEmpty(nameof(year), Convert.ToString(year));
 
-            return await GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters).ConfigureAwait(false);
+            return GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters);
         }
 
         private Dictionary<string, string> BuildIncludeParameter(bool includeLines = false, bool includeSettlements = false)

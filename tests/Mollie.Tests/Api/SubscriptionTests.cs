@@ -17,7 +17,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanRetrieveSubscriptionList() {
             // Given
-            string customerId = await this.GetFirstCustomerWithValidMandate();
+            string customerId = await GetFirstCustomerWithValidMandate();
 
             // When: Retrieve subscription list with default settings
             ListResponse<SubscriptionResponse> response = await SubscriptionClient.GetSubscriptionListAsync(customerId);
@@ -30,7 +30,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task ListSubscriptionsNeverReturnsMoreCustomersThenTheNumberOfRequestedSubscriptions() {
             // Given: Number of customers requested is 5
-            string customerId = await this.GetFirstCustomerWithValidMandate();
+            string customerId = await GetFirstCustomerWithValidMandate();
             int numberOfSubscriptions = 5;
 
             // When: Retrieve 5 subscriptions
@@ -43,14 +43,16 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCreateSubscription() {
             // Given
-            string customerId = await this.GetFirstCustomerWithValidMandate();
-            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.Amount = new Amount(Currency.EUR, "100.00");
-            subscriptionRequest.Times = 5;
-            subscriptionRequest.Interval = "1 month";
-            subscriptionRequest.Description = $"Subscription {Guid.NewGuid()}"; // Subscriptions must have a unique name
-            subscriptionRequest.WebhookUrl = "http://www.google.nl";
-            subscriptionRequest.StartDate = DateTime.Now.AddDays(1);
+            string customerId = await GetFirstCustomerWithValidMandate();
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest
+            {
+                Amount = new Amount(Currency.EUR, "100.00"),
+                Times = 5,
+                Interval = "1 month",
+                Description = $"Subscription {Guid.NewGuid()}", // Subscriptions must have a unique name
+                WebhookUrl = "http://www.google.nl",
+                StartDate = DateTime.Now.AddDays(1)
+            };
 
             // When
             SubscriptionResponse subscriptionResponse = await SubscriptionClient.CreateSubscriptionAsync(customerId, subscriptionRequest);
@@ -68,7 +70,7 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanCancelSubscription() {
             // Given
-            string customerId = await this.GetFirstCustomerWithValidMandate();
+            string customerId = await GetFirstCustomerWithValidMandate();
             ListResponse<SubscriptionResponse> subscriptions = await SubscriptionClient.GetSubscriptionListAsync(customerId);
 
             // When
@@ -88,13 +90,15 @@ namespace Mollie.Tests.Api
         [TestMethod]
         public async Task CanUpdateSubscription() {
             // Given 
-            string customerId = await this.GetFirstCustomerWithValidMandate();
+            string customerId = await GetFirstCustomerWithValidMandate();
             ListResponse<SubscriptionResponse> subscriptions = await SubscriptionClient.GetSubscriptionListAsync(customerId);
 
             // When
-            if (subscriptions.Count > 0) {
+            if (subscriptions.Count > 0)
+            {
                 string subscriptionId = subscriptions.Items.First().Id;
-                SubscriptionUpdateRequest request = new SubscriptionUpdateRequest() {
+                SubscriptionUpdateRequest request = new SubscriptionUpdateRequest()
+                {
                     Description = $"Updated subscription {Guid.NewGuid()}"
                 };
                 SubscriptionResponse response = await SubscriptionClient.UpdateSubscriptionAsync(customerId, subscriptionId, request);
@@ -111,15 +115,17 @@ namespace Mollie.Tests.Api
         public async Task CanCreateSubscriptionWithMetaData() {
             // If: We create a subscription with meta data
             string json = "{\"order_id\":\"4.40\"}";
-            string customerId = await this.GetFirstCustomerWithValidMandate();
-            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.Amount = new Amount(Currency.EUR, "100.00");
-            subscriptionRequest.Times = 5;
-            subscriptionRequest.Interval = "1 month";
-            subscriptionRequest.Description = $"Subscription {Guid.NewGuid()}"; // Subscriptions must have a unique name
-            subscriptionRequest.WebhookUrl = "http://www.google.nl";
-            subscriptionRequest.StartDate = DateTime.Now.AddDays(1);
-            subscriptionRequest.Metadata = json;
+            string customerId = await GetFirstCustomerWithValidMandate();
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest
+            {
+                Amount = new Amount(Currency.EUR, "100.00"),
+                Times = 5,
+                Interval = "1 month",
+                Description = $"Subscription {Guid.NewGuid()}", // Subscriptions must have a unique name
+                WebhookUrl = "http://www.google.nl",
+                StartDate = DateTime.Now.AddDays(1),
+                Metadata = json
+            };
 
             // When We send the subscription request to Mollie
             SubscriptionResponse result = await SubscriptionClient.CreateSubscriptionAsync(customerId, subscriptionRequest);

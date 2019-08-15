@@ -5,7 +5,7 @@ using Mollie.Models.List;
 using Mollie.Models.PaymentMethod;
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IPaymentMethodClient
     {

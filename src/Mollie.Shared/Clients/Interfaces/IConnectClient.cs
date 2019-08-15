@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Mollie.Models.Connect;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IConnectClient
     {

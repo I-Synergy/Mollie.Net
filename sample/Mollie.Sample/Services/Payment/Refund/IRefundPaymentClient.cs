@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models;
 using Mollie.Models.Payment.Response;
 using Mollie.Models.Refund;
 
-namespace Mollie.Sample.Services.Payment.Refund {
+namespace Mollie.Sample.Services.Payment.Refund
+{
     public interface IRefundPaymentClient {
         Task Refund(string paymentId);
     }

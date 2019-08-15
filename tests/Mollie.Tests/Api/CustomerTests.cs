@@ -42,7 +42,7 @@ namespace Mollie.Tests.Api
             string email = "johnsmit@mollie.com";
 
             // When: We send the customer request to Mollie
-            CustomerResponse result = await this.CreateCustomer(name, email);
+            CustomerResponse result = await CreateCustomer(name, email);
 
             // Then: Make sure the requested parameters match the response parameter values
             Assert.IsNotNull(result);
@@ -94,7 +94,7 @@ namespace Mollie.Tests.Api
             // If: We create a customer request with only the required parameters
             string name = "Smit";
             string email = "johnsmit@mollie.com";
-            CustomerResponse createdCustomer = await this.CreateCustomer(name, email);
+            CustomerResponse createdCustomer = await CreateCustomer(name, email);
 
             // When: We try to retrieve the customer by Url object
             CustomerResponse retrievedCustomer = await CustomerClient.GetCustomerAsync(createdCustomer.Links.Self);

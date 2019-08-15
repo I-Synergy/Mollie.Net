@@ -3,7 +3,7 @@ using Mollie.Models.List;
 using Mollie.Models.Organization;
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IOrganizationsClient
     {

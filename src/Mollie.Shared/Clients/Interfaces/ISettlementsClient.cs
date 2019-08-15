@@ -6,13 +6,13 @@ using Mollie.Models.Refund;
 using Mollie.Models.Settlement;
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface ISettlementsClient
     {
         Task<SettlementResponse> GetSettlementAsync(string settlementId);
-        Task<SettlementResponse> GetNextSettlement();
-        Task<SettlementResponse> GetOpenBalance();
+        Task<SettlementResponse> GetNextSettlementAsync();
+        Task<SettlementResponse> GetOpenBalanceAsync();
         Task<ListResponse<SettlementResponse>> GetSettlementsListAsync(string reference = null, string from = null, int? limit = null);
         Task<ListResponse<PaymentResponse>> GetSettlementPaymentsListAsync(string settlementId, string from = null, int? limit = null);
         Task<ListResponse<RefundResponse>> GetSettlementRefundsListAsync(string settlementId, string from = null, int? limit = null);

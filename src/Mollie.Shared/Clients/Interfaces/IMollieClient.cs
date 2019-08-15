@@ -1,6 +1,4 @@
-﻿using Mollie.Client.Abstract;
-
-namespace Mollie.Abstract
+﻿namespace Mollie.Client
 {
     public interface IMollieClient : ICustomerClient, IMandateClient, IPaymentClient, IPaymentMethodClient, IRefundClient, ISubscriptionClient
     {

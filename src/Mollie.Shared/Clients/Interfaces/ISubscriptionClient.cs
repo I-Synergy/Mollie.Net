@@ -4,7 +4,7 @@ using Mollie.Models.Payment.Response;
 using Mollie.Models.Subscription;
 using Mollie.Models.Url;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface ISubscriptionClient
     {

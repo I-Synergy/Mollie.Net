@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Mollie.Models.Customer;
 using Mollie.Sample.Models;
 using Mollie.Sample.Services.Customer;
-using Mollie.Sample.Services;
 
-namespace Mollie.Sample.Controllers {
+namespace Mollie.Sample.Controllers
+{
     public class CustomerController : Controller {
         private readonly ICustomerOverviewClient _customerOverviewClient;
         private readonly ICustomerStorageClient _customerStorageClient;

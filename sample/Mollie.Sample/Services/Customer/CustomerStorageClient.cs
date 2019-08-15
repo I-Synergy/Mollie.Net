@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Mollie.Client.Abstract;
 using Mollie.Models.Customer;
 using Mollie.Sample.Models;
 
-namespace Mollie.Sample.Services.Customer {
+namespace Mollie.Sample.Services.Customer
+{
     public class CustomerStorageClient : ICustomerStorageClient {
         private readonly ICustomerClient _customerClient;
         private readonly IMapper _mapper;

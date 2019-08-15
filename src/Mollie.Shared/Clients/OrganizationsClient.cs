@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.List;
 using Mollie.Models.Organization;
 using Mollie.Models.Url;
@@ -13,24 +12,16 @@ namespace Mollie.Client
         {
         }
 
-        public async Task<OrganizationResponse> GetCurrentOrganizationAsync()
-        {
-            return await GetAsync<OrganizationResponse>($"organizations/me").ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetCurrentOrganizationAsync() =>
+            GetAsync<OrganizationResponse>($"organizations/me");
 
-        public async Task<OrganizationResponse> GetOrganizationAsync(string organizationId)
-        {
-            return await GetAsync<OrganizationResponse>($"organizations/{organizationId}").ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetOrganizationAsync(string organizationId) =>
+            GetAsync<OrganizationResponse>($"organizations/{organizationId}");
 
-        public async Task<ListResponse<OrganizationResponse>> GetOrganizationsListAsync(string from = null, int? limit = null)
-        {
-            return await GetListAsync<ListResponse<OrganizationResponse>>("organizations", from, limit, null).ConfigureAwait(false);
-        }
+        public Task<ListResponse<OrganizationResponse>> GetOrganizationsListAsync(string from = null, int? limit = null) =>
+            GetListAsync<ListResponse<OrganizationResponse>>("organizations", from, limit, null);
 
-        public async Task<OrganizationResponse> GetOrganizationAsync(UrlObjectLink<OrganizationResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetOrganizationAsync(UrlObjectLink<OrganizationResponse> url) =>
+            GetAsync(url);
     }
 }

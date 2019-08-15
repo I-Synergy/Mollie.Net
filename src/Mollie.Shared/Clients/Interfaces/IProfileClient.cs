@@ -4,7 +4,7 @@ using Mollie.Models.List;
 using Mollie.Models.Profile.Request;
 using Mollie.Models.Profile.Response;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IProfileClient
     {

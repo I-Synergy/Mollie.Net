@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.List;
 using Mollie.Models.Payment.Request;
 using Mollie.Models.Payment.Response;
@@ -15,17 +14,17 @@ namespace Mollie.Client
 
         public PaymentClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient) { }
 
-        public async Task<PaymentResponse> CreatePaymentAsync(PaymentRequest paymentRequest)
+        public Task<PaymentResponse> CreatePaymentAsync(PaymentRequest paymentRequest)
         {
             if (!string.IsNullOrWhiteSpace(paymentRequest.ProfileId) || paymentRequest.Testmode.HasValue || paymentRequest.ApplicationFee != null)
             {
                 ValidateApiKeyIsOauthAccesstoken();
             }
 
-            return await PostAsync<PaymentResponse>("payments", paymentRequest).ConfigureAwait(false);
+            return PostAsync<PaymentResponse>("payments", paymentRequest);
         }
 
-        public async Task<PaymentResponse> GetPaymentAsync(string paymentId, bool testmode = false)
+        public Task<PaymentResponse> GetPaymentAsync(string paymentId, bool testmode = false)
         {
             if (testmode)
             {
@@ -34,25 +33,19 @@ namespace Mollie.Client
 
             var testmodeParameter = testmode ? "?testmode=true" : string.Empty;
 
-            return await GetAsync<PaymentResponse>($"payments/{paymentId}{testmodeParameter}").ConfigureAwait(false);
+            return GetAsync<PaymentResponse>($"payments/{paymentId}{testmodeParameter}");
         }
 
-        public async Task DeletePaymentAsync(string paymentId)
-        {
-            await DeleteAsync($"payments/{paymentId}").ConfigureAwait(false);
-        }
+        public Task DeletePaymentAsync(string paymentId) =>
+            DeleteAsync($"payments/{paymentId}");
 
-        public async Task<PaymentResponse> GetPaymentAsync(UrlObjectLink<PaymentResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<PaymentResponse> GetPaymentAsync(UrlObjectLink<PaymentResponse> url) =>
+            GetAsync(url);
 
-        public async Task<ListResponse<PaymentResponse>> GetPaymentListAsync(UrlObjectLink<ListResponse<PaymentResponse>> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<ListResponse<PaymentResponse>> GetPaymentListAsync(UrlObjectLink<ListResponse<PaymentResponse>> url) =>
+            GetAsync(url);
 
-        public async Task<ListResponse<PaymentResponse>> GetPaymentListAsync(string from = null, int? limit = null, string profileId = null, bool? testMode = null)
+        public Task<ListResponse<PaymentResponse>> GetPaymentListAsync(string from = null, int? limit = null, string profileId = null, bool? testMode = null)
         {
             if (!string.IsNullOrWhiteSpace(profileId) || testMode.HasValue)
             {
@@ -63,7 +56,7 @@ namespace Mollie.Client
             parameters.AddValueIfNotNullOrEmpty(nameof(profileId), profileId);
             parameters.AddValueIfNotNullOrEmpty(nameof(testMode), Convert.ToString(testMode).ToLower());
 
-            return await GetListAsync<ListResponse<PaymentResponse>>($"payments", from, limit, parameters).ConfigureAwait(false);
+            return GetListAsync<ListResponse<PaymentResponse>>($"payments", from, limit, parameters);
         }
     }
 }

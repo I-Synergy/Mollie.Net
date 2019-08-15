@@ -1,5 +1,4 @@
 ﻿using Mollie.Client;
-using Mollie.Client.Abstract;
 using System;
 
 namespace Mollie.Tests.Api

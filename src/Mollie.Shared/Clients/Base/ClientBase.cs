@@ -41,45 +41,37 @@ namespace Mollie.Client
                 httpRequest.Content = content;
             }
 
-            var response = await _httpClient.SendAsync(httpRequest).ConfigureAwait(false);
-            return await ProcessHttpResponseMessage<T>(response).ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(httpRequest);
+            return await ProcessHttpResponseMessageAsync<T>(response);
         }
 
-        protected async Task<T> GetListAsync<T>(string relativeUri, string from, int? limit, IDictionary<string, string> otherParameters = null)
+        protected Task<T> GetListAsync<T>(string relativeUri, string from, int? limit, IDictionary<string, string> otherParameters = null)
         {
             string url = relativeUri + BuildListQueryString(from, limit, otherParameters);
-            return await SendHttpRequest<T>(HttpMethod.Get, url);
+            return SendHttpRequest<T>(HttpMethod.Get, url);
         }
 
-        protected async Task<T> GetAsync<T>(string relativeUri)
-        {
-            return await SendHttpRequest<T>(HttpMethod.Get, relativeUri);
-        }
+        protected Task<T> GetAsync<T>(string relativeUri) =>
+            SendHttpRequest<T>(HttpMethod.Get, relativeUri);
 
-        protected async Task<T> GetAsync<T>(UrlObjectLink<T> urlObject)
+        protected Task<T> GetAsync<T>(UrlObjectLink<T> urlObject)
         {
             ValidateUrlLink(urlObject);
-            return await GetAsync<T>(urlObject.Href);
+            return GetAsync<T>(urlObject.Href);
         }
 
-        protected async Task<T> PostAsync<T>(string relativeUri, object data)
-        {
-            return await SendHttpRequest<T>(HttpMethod.Post, relativeUri, data);
-        }
+        protected Task<T> PostAsync<T>(string relativeUri, object data) =>
+            SendHttpRequest<T>(HttpMethod.Post, relativeUri, data);
 
-        protected async Task<T> PatchAsync<T>(string relativeUri, object data)
-        {
-            return await SendHttpRequest<T>(new HttpMethod("PATCH"), relativeUri, data);
-        }
+        protected Task<T> PatchAsync<T>(string relativeUri, object data) =>
+            SendHttpRequest<T>(new HttpMethod("PATCH"), relativeUri, data);
 
-        protected async Task DeleteAsync(string relativeUri, object data = null)
-        {
-            await SendHttpRequest<object>(HttpMethod.Delete, relativeUri, data);
-        }
+        protected Task DeleteAsync(string relativeUri, object data = null) =>
+            SendHttpRequest<object>(HttpMethod.Delete, relativeUri, data);
 
-        private async Task<T> ProcessHttpResponseMessage<T>(HttpResponseMessage response)
+        private async Task<T> ProcessHttpResponseMessageAsync<T>(HttpResponseMessage response)
         {
-            var resultContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var resultContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {

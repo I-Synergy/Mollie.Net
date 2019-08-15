@@ -2,7 +2,7 @@
 using Mollie.Models.Chargeback;
 using Mollie.Models.List;
 
-namespace Mollie.Client.Abstract
+namespace Mollie.Client
 {
     public interface IChargebacksClient
     {

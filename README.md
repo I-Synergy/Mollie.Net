@@ -286,7 +286,7 @@ ListResponse<MandateResponse> response = await mandateclient.GetMandateListAsync
 Revoke a customer’s mandate. You will no longer be able to charge the consumer’s bank account or credit card with this mandate.
 ```c#
 IMandateClient mandateclient = new MandateClient("{yourApiKey}");
-await mandateclient.RevokeMandate("{customerId}", "{mandateId}");
+await mandateclient.RevokeMandateAsync("{customerId}", "{mandateId}");
 ```
 
 
