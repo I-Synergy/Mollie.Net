@@ -9,22 +9,22 @@
     <Import_RootNamespace>Mollie.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IChargebacksClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IConnectClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ICustomerClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IInvoicesClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMandateClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IMollieClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IOrderClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IOrganizationsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPaymentMethodClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IPermissionsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IProfileClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\IRefundClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISettlementsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Abstract\ISubscriptionClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ClientBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IChargebacksClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IConnectClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ICustomerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IInvoicesClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMandateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMollieClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrderClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrganizationsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPaymentClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPaymentMethodClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPermissionsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IProfileClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IRefundClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ISettlementsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ISubscriptionClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\ConnectClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Base\OauthClientBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ChargebacksClient.cs" />
@@ -41,12 +41,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\SettlementsClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\SubscriptionClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Argument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContractResolvers\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\JsonCreationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ListResponseConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\PaymentResponseConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\RawJsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringConverters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumerations\Enumerations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpClientExtensions.cs" />
@@ -153,6 +155,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Subscription\SubscriptionUpdateRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Url\UrlLink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Url\UrlObjectLink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IClientService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IJsonConverterService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IValidatorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\JsonConverterService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ValidatorService.cs" />
   </ItemGroup>
 </Project>

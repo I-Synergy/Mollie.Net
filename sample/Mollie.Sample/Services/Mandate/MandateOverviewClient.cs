@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Mollie.Client.Abstract;
 using Mollie.Models.Mandate;
 using Mollie.Sample.Models;
 
-namespace Mollie.Sample.Services.Mandate {
+namespace Mollie.Sample.Services.Mandate
+{
     public class MandateOverviewClient : OverviewClientBase<MandateResponse>, IMandateOverviewClient {
         private readonly IMandateClient _mandateClient;
 

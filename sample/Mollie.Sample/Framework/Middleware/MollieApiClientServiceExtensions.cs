@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Mollie.Client;
-using Mollie.Client.Abstract;
 
-namespace Mollie.Sample.Framework.Middleware {
+namespace Mollie.Sample.Framework.Middleware
+{
     public static class MollieApiClientServiceExtensions {
         public static IServiceCollection AddMollieApi(this IServiceCollection services, string apiKey) {
             services.AddScoped<IPaymentClient, PaymentClient>();

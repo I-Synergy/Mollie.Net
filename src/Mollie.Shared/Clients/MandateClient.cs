@@ -1,47 +1,33 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Mollie.Client.Abstract;
+﻿using System.Threading.Tasks;
 using Mollie.Models.List;
 using Mollie.Models.Mandate;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class MandateClient : ClientBase, IMandateClient
     {
-        public MandateClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient)
+        public MandateClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<MandateResponse> GetMandateAsync(string customerId, string mandateId)
-        {
-            return await GetAsync<MandateResponse>($"customers/{customerId}/mandates/{mandateId}").ConfigureAwait(false);
-        }
+        public Task<MandateResponse> GetMandateAsync(string customerId, string mandateId) =>
+            ClientService.GetAsync<MandateResponse>($"customers/{customerId}/mandates/{mandateId}");
 
-        public async Task<ListResponse<MandateResponse>> GetMandateListAsync(string customerId, string from = null, int? limit = null)
-        {
-            return await
-                GetListAsync<ListResponse<MandateResponse>>($"customers/{customerId}/mandates", from, limit).ConfigureAwait(false);
-        }
+        public Task<ListResponse<MandateResponse>> GetMandateListAsync(string customerId, string from = null, int? limit = null) =>
+            ClientService.GetListAsync<ListResponse<MandateResponse>>($"customers/{customerId}/mandates", from, limit);
 
-        public async Task<MandateResponse> CreateMandateAsync(string customerId, MandateRequest request)
-        {
-            return await PostAsync<MandateResponse>($"customers/{customerId}/mandates", request).ConfigureAwait(false);
-        }
+        public Task<MandateResponse> CreateMandateAsync(string customerId, MandateRequest request) =>
+            ClientService.PostAsync<MandateResponse>($"customers/{customerId}/mandates", request);
 
-        public async Task<ListResponse<MandateResponse>> GetMandateListAsync(UrlObjectLink<ListResponse<MandateResponse>> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<ListResponse<MandateResponse>> GetMandateListAsync(UrlObjectLink<ListResponse<MandateResponse>> url) =>
+            ClientService.GetAsync(url);
 
-        public async Task<MandateResponse> GetMandateAsync(UrlObjectLink<MandateResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<MandateResponse> GetMandateAsync(UrlObjectLink<MandateResponse> url) =>
+            ClientService.GetAsync(url);
 
-        public async Task RevokeMandate(string customerId, string mandateId)
-        {
-            await DeleteAsync($"customers/{customerId}/mandates/{mandateId}").ConfigureAwait(false);
-        }
+        public Task RevokeMandateAsync(string customerId, string mandateId) =>
+            ClientService.DeleteAsync($"customers/{customerId}/mandates/{mandateId}");
     }
 }

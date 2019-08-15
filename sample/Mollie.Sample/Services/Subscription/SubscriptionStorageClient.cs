@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Mollie.Client.Abstract;
 using Mollie.Models.Subscription;
 using Mollie.Sample.Models;
 
-namespace Mollie.Sample.Services.Subscription {
+namespace Mollie.Sample.Services.Subscription
+{
     public class SubscriptionStorageClient : ISubscriptionStorageClient {
         private readonly ISubscriptionClient _subscriptionClient;
         private readonly IMapper _mapper;

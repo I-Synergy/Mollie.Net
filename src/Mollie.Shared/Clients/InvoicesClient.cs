@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.Invoice;
 using Mollie.Models.List;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class InvoicesClient : OauthClientBase, IInvoicesClient
     {
-        public InvoicesClient(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
+        public InvoicesClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<InvoiceResponse> GetInvoiceAsync(string invoiceId, bool includeLines = false,
+        public Task<InvoiceResponse> GetInvoiceAsync(string invoiceId, bool includeLines = false,
             bool includeSettlements = false)
         {
             var includes = BuildIncludeParameter(includeLines, includeSettlements);
-            return await GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}").ConfigureAwait(false);
+            return ClientService.GetAsync<InvoiceResponse>($"invoices/{invoiceId}{includes.ToQueryString()}");
         }
 
-        public async Task<InvoiceResponse> GetInvoiceAsync(UrlObjectLink<InvoiceResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<InvoiceResponse> GetInvoiceAsync(UrlObjectLink<InvoiceResponse> url) =>
+            ClientService.GetAsync(url);
 
-        public async Task<ListResponse<InvoiceResponse>> GetInvoiceListAsync(string reference = null, int? year = null, string from = null, int? limit = null, bool includeLines = false, bool includeSettlements = false)
+        public Task<ListResponse<InvoiceResponse>> GetInvoiceListAsync(string reference = null, int? year = null, string from = null, int? limit = null, bool includeLines = false, bool includeSettlements = false)
         {
             var parameters = BuildIncludeParameter(includeLines, includeSettlements);
             parameters.AddValueIfNotNullOrEmpty(nameof(reference), reference);
             parameters.AddValueIfNotNullOrEmpty(nameof(year), Convert.ToString(year));
 
-            return await GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters).ConfigureAwait(false);
+            return ClientService.GetListAsync<ListResponse<InvoiceResponse>>($"invoices", from, limit, parameters);
         }
 
         private Dictionary<string, string> BuildIncludeParameter(bool includeLines = false, bool includeSettlements = false)

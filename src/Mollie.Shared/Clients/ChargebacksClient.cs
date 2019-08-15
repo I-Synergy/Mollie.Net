@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Models.Chargeback;
 using Mollie.Models.List;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class ChargebacksClient : ClientBase, IChargebacksClient
     {
-        public ChargebacksClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient)
+        public ChargebacksClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<ChargebackResponse> GetChargebackAsync(string paymentId, string chargebackId)
-        {
-            return await GetAsync<ChargebackResponse>($"payments/{paymentId}/chargebacks/{chargebackId}")
-                .ConfigureAwait(false);
-        }
+        public Task<ChargebackResponse> GetChargebackAsync(string paymentId, string chargebackId) =>
+            ClientService.GetAsync<ChargebackResponse>($"payments/{paymentId}/chargebacks/{chargebackId}");
 
-        public async Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string paymentId, string from = null, int? limit = null)
-        {
-            return await
-                GetListAsync<ListResponse<ChargebackResponse>>($"payments/{paymentId}/chargebacks", from, limit)
-                .ConfigureAwait(false);
-        }
+        public Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string paymentId, string from = null, int? limit = null) =>
+            ClientService.GetListAsync<ListResponse<ChargebackResponse>>($"payments/{paymentId}/chargebacks", from, limit);
 
-        public async Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string profileId = null, bool? testmode = null)
+        public Task<ListResponse<ChargebackResponse>> GetChargebacksListAsync(string profileId = null, bool? testmode = null)
         {
             if (profileId != null || testmode != null)
             {
@@ -39,7 +31,7 @@ namespace Mollie.Client
             parameters.AddValueIfNotNullOrEmpty(nameof(profileId), profileId);
             parameters.AddValueIfNotNullOrEmpty(nameof(testmode), Convert.ToString(testmode).ToLower());
 
-            return await GetListAsync<ListResponse<ChargebackResponse>>($"chargebacks", null, null, parameters).ConfigureAwait(false);
+            return ClientService.GetListAsync<ListResponse<ChargebackResponse>>($"chargebacks", null, null, parameters);
         }
     }
 }

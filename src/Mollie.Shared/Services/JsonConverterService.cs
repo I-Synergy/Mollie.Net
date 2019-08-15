@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Mollie.Services
 {
-    public class JsonConverterService
+    public class JsonConverterService : IJsonConverterService
     {
         private readonly JsonSerializerSettings _defaultJsonDeserializerSettings;
 

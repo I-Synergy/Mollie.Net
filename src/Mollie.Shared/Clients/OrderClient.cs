@@ -1,73 +1,50 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Mollie.Client.Abstract;
+﻿using System.Threading.Tasks;
 using Mollie.Models.List;
 using Mollie.Models.Order;
 using Mollie.Models.Payment.Response;
 using Mollie.Models.Refund;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class OrderClient : ClientBase, IOrderClient
     {
-        public OrderClient(string apiKey, HttpClient httpClient = null) : base(apiKey, httpClient)
+        public OrderClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<OrderResponse> CreateOrderAsync(OrderRequest orderRequest)
-        {
-            return await PostAsync<OrderResponse>("orders", orderRequest).ConfigureAwait(false);
-        }
+        public Task<OrderResponse> CreateOrderAsync(OrderRequest orderRequest) =>
+            ClientService.PostAsync<OrderResponse>("orders", orderRequest);
 
-        public async Task<OrderResponse> GetOrderAsync(string orderId)
-        {
-            return await GetAsync<OrderResponse>($"orders/{orderId}").ConfigureAwait(false); ;
-        }
+        public Task<OrderResponse> GetOrderAsync(string orderId) =>
+            ClientService.GetAsync<OrderResponse>($"orders/{orderId}");
 
-        public async Task<OrderResponse> UpdateOrderAsync(string orderId, OrderUpdateRequest orderUpdateRequest)
-        {
-            return await PatchAsync<OrderResponse>($"orders/{orderId}", orderUpdateRequest).ConfigureAwait(false);
-        }
+        public Task<OrderResponse> UpdateOrderAsync(string orderId, OrderUpdateRequest orderUpdateRequest) =>
+            ClientService.PatchAsync<OrderResponse>($"orders/{orderId}", orderUpdateRequest);
 
-        public async Task<OrderResponse> UpdateOrderLinesAsync(string orderId, string orderLineId, OrderLineUpdateRequest orderLineUpdateRequest)
-        {
-            return await PatchAsync<OrderResponse>($"orders/{orderId}/lines/{orderLineId}", orderLineUpdateRequest).ConfigureAwait(false);
-        }
+        public Task<OrderResponse> UpdateOrderLinesAsync(string orderId, string orderLineId, OrderLineUpdateRequest orderLineUpdateRequest) =>
+            ClientService.PatchAsync<OrderResponse>($"orders/{orderId}/lines/{orderLineId}", orderLineUpdateRequest);
 
-        public async Task CancelOrderAsync(string orderId)
-        {
-            await DeleteAsync($"orders/{orderId}").ConfigureAwait(false);
-        }
+        public Task CancelOrderAsync(string orderId) =>
+            ClientService.DeleteAsync($"orders/{orderId}");
 
-        public async Task<ListResponse<OrderResponse>> GetOrderListAsync(string from = null, int? limit = null)
-        {
-            return await GetListAsync<ListResponse<OrderResponse>>($"orders", from, limit).ConfigureAwait(false);
-        }
+        public Task<ListResponse<OrderResponse>> GetOrderListAsync(string from = null, int? limit = null) =>
+            ClientService.GetListAsync<ListResponse<OrderResponse>>($"orders", from, limit);
 
-        public async Task<ListResponse<OrderResponse>> GetOrderListAsync(UrlObjectLink<ListResponse<OrderResponse>> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<ListResponse<OrderResponse>> GetOrderListAsync(UrlObjectLink<ListResponse<OrderResponse>> url) =>
+            ClientService.GetAsync(url);
 
-        public async Task CancelOrderLinesAsync(string orderId, OrderLineCancellationRequest cancelationRequest)
-        {
-            await DeleteAsync($"orders/{orderId}/lines", cancelationRequest).ConfigureAwait(false);
-        }
+        public Task CancelOrderLinesAsync(string orderId, OrderLineCancellationRequest cancelationRequest) =>
+            ClientService.DeleteAsync($"orders/{orderId}/lines", cancelationRequest);
 
-        public async Task<PaymentResponse> CreateOrderPaymentAsync(string orderId, OrderPaymentRequest createOrderPaymentRequest)
-        {
-            return await PostAsync<PaymentResponse>($"orders/{orderId}/payments", createOrderPaymentRequest).ConfigureAwait(false);
-        }
+        public Task<PaymentResponse> CreateOrderPaymentAsync(string orderId, OrderPaymentRequest createOrderPaymentRequest) =>
+            ClientService.PostAsync<PaymentResponse>($"orders/{orderId}/payments", createOrderPaymentRequest);
 
-        public async Task CreateOrderRefundAsync(string orderId, OrderRefundRequest createOrderRefundRequest)
-        {
-            await DeleteAsync($"orders/{orderId}/refunds", createOrderRefundRequest);
-        }
+        public Task CreateOrderRefundAsync(string orderId, OrderRefundRequest createOrderRefundRequest) =>
+            ClientService.DeleteAsync($"orders/{orderId}/refunds", createOrderRefundRequest);
 
-        public async Task<ListResponse<RefundResponse>> GetOrderRefundListAsync(string orderId, string from = null, int? limit = null)
-        {
-            return await GetListAsync<ListResponse<RefundResponse>>($"orders/{orderId}/refunds", from, limit).ConfigureAwait(false);
-        }
+        public Task<ListResponse<RefundResponse>> GetOrderRefundListAsync(string orderId, string from = null, int? limit = null) =>
+            ClientService.GetListAsync<ListResponse<RefundResponse>>($"orders/{orderId}/refunds", from, limit);
     }
 }

@@ -1,32 +1,25 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Mollie.Client.Abstract;
+﻿using System.Threading.Tasks;
 using Mollie.Models.List;
 
 using Mollie.Models.Permission;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class PermissionsClient : OauthClientBase, IPermissionsClient
     {
-        public PermissionsClient(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
+        public PermissionsClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<PermissionResponse> GetPermissionAsync(string permissionId)
-        {
-            return await GetAsync<PermissionResponse>($"permissions/{permissionId}").ConfigureAwait(false);
-        }
+        public Task<PermissionResponse> GetPermissionAsync(string permissionId) =>
+            ClientService.GetAsync<PermissionResponse>($"permissions/{permissionId}");
 
-        public async Task<PermissionResponse> GetPermissionAsync(UrlObjectLink<PermissionResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<PermissionResponse> GetPermissionAsync(UrlObjectLink<PermissionResponse> url) =>
+            ClientService.GetAsync(url);
 
-        public async Task<ListResponse<PermissionResponse>> GetPermissionListAsync()
-        {
-            return await GetListAsync<ListResponse<PermissionResponse>>("permissions", null, null).ConfigureAwait(false);
-        }
+        public Task<ListResponse<PermissionResponse>> GetPermissionListAsync() =>
+            ClientService.GetListAsync<ListResponse<PermissionResponse>>("permissions", null, null);
     }
 }

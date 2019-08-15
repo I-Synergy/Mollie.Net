@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Mollie.Client.Abstract;
 using Mollie.Enumerations;
 using Mollie.Models.Mandate;
 
-namespace Mollie.Sample.Services.Mandate {
+namespace Mollie.Sample.Services.Mandate
+{
     public interface IMandateStorageClient {
         Task<MandateResponse> Create(string customerId);
     }

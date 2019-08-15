@@ -1,36 +1,27 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Mollie.Client.Abstract;
+﻿using System.Threading.Tasks;
 using Mollie.Models.List;
 using Mollie.Models.Organization;
 using Mollie.Models.Url;
+using Mollie.Services;
 
 namespace Mollie.Client
 {
     public class OrganizationsClient : OauthClientBase, IOrganizationsClient
     {
-        public OrganizationsClient(string oauthAccessToken, HttpClient httpClient = null) : base(oauthAccessToken, httpClient)
+        public OrganizationsClient(IClientService clientService) : base(clientService)
         {
         }
 
-        public async Task<OrganizationResponse> GetCurrentOrganizationAsync()
-        {
-            return await GetAsync<OrganizationResponse>($"organizations/me").ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetCurrentOrganizationAsync() =>
+            ClientService.GetAsync<OrganizationResponse>($"organizations/me");
 
-        public async Task<OrganizationResponse> GetOrganizationAsync(string organizationId)
-        {
-            return await GetAsync<OrganizationResponse>($"organizations/{organizationId}").ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetOrganizationAsync(string organizationId) =>
+            ClientService.GetAsync<OrganizationResponse>($"organizations/{organizationId}");
 
-        public async Task<ListResponse<OrganizationResponse>> GetOrganizationsListAsync(string from = null, int? limit = null)
-        {
-            return await GetListAsync<ListResponse<OrganizationResponse>>("organizations", from, limit, null).ConfigureAwait(false);
-        }
+        public Task<ListResponse<OrganizationResponse>> GetOrganizationsListAsync(string from = null, int? limit = null) =>
+            ClientService.GetListAsync<ListResponse<OrganizationResponse>>("organizations", from, limit, null);
 
-        public async Task<OrganizationResponse> GetOrganizationAsync(UrlObjectLink<OrganizationResponse> url)
-        {
-            return await GetAsync(url).ConfigureAwait(false);
-        }
+        public Task<OrganizationResponse> GetOrganizationAsync(UrlObjectLink<OrganizationResponse> url) =>
+            ClientService.GetAsync(url);
     }
 }

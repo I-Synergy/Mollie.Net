@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Mollie.Models;
 using Mollie.Models.Payment.Response;
 using Mollie.Sample.Models;
-using Mollie.Sample.Services;
 using Mollie.Sample.Services.Payment;
 
-namespace Mollie.Sample.Controllers {
+namespace Mollie.Sample.Controllers
+{
     public class PaymentController : Controller {
         private readonly IPaymentOverviewClient _paymentOverviewClient;
         private readonly IPaymentStorageClient _paymentStorageClient;
