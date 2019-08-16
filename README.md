@@ -1,5 +1,9 @@
 # Mollie .Net
 
+[![Build Status](https://dev.azure.com/intelligence-online/Mollie.NET/_apis/build/status/5?branchName=master&stageName=Artifacts&jobName=Process%20artifacts%20Mollie%20libraries)](https://dev.azure.com/intelligence-online/Mollie.NET/_build/latest?definitionId=5&branchName=master)
+
+[![Deployment Status](https://vsrm.dev.azure.com/intelligence-online/_apis/public/Release/badge/2aa8a521-9f1b-4545-b6e3-3bb35a41652e/1/1)](https://vsrm.dev.azure.com/intelligence-online/_apis/public/Release/badge/2aa8a521-9f1b-4545-b6e3-3bb35a41652e/1/1)
+
 First i want to thank [Vincent Kok](http://vincentkok.net) for his marvelous work.
 I took the liberty to migrate this project to .net standard 2.0 which makes it usable for UWP, Xamarin and Asp.Net Core.
 Again, many kudo's for Vincent.
@@ -255,7 +259,7 @@ await customerClient.DeleteCustomerAsync("{customerIdToDelete}");
 
 
 ## 7. Mandate API
-Mandates allow you to charge a customer’s credit card or bank account recurrently.
+Mandates allow you to charge a customerï¿½s credit card or bank account recurrently.
 
 ### Creating a new mandate
 Create a mandate for a specific customer.
@@ -269,7 +273,7 @@ MandateResponse mandateResponse = await this._mandateClient.CreateMandateAsync("
 ```
 
 ### Retrieve a mandate by id
-Retrieve a mandate by its ID and its customer’s ID. The mandate will either contain IBAN or credit card details, depending on the type of mandate.
+Retrieve a mandate by its ID and its customerï¿½s ID. The mandate will either contain IBAN or credit card details, depending on the type of mandate.
 ```c#
 IMandateClient mandateclient = new MandateClient("{yourApiKey}");
 MandateResponse mandateResponse = await mandateclient.GetMandateAsync("{customerId}", "{mandateId}");
@@ -283,7 +287,7 @@ ListResponse<MandateResponse> response = await mandateclient.GetMandateListAsync
 ```
 
 ### Revoking a mandate
-Revoke a customer’s mandate. You will no longer be able to charge the consumer’s bank account or credit card with this mandate.
+Revoke a customerï¿½s mandate. You will no longer be able to charge the consumerï¿½s bank account or credit card with this mandate.
 ```c#
 IMandateClient mandateclient = new MandateClient("{yourApiKey}");
 await mandateclient.RevokeMandateAsync("{customerId}", "{mandateId}");
@@ -308,7 +312,7 @@ SubscriptionResponse subscriptionResponse = await subscriptionClient.CreateSubsc
 ```
 
 ### Retrieve a subscription by id
-Retrieve a subscription by its ID and its customer’s ID.
+Retrieve a subscription by its ID and its customerï¿½s ID.
 ```c#
 ISubscriptionClient subscriptionClient = new SubscriptionClient("{yourApiKey}");
 SubscriptionResponse subscriptionResponse = await subscriptionClient.GetSubscriptionAsync("{customerId}", "{subscriptionId}");
