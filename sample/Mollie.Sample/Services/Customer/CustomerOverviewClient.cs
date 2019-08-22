@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Mollie.Client;
 using Mollie.Models.Customer;
 using Mollie.Sample.Models;
 
@@ -9,15 +10,15 @@ namespace Mollie.Sample.Services.Customer
         private readonly ICustomerClient _customerClient;
 
         public CustomerOverviewClient(IMapper mapper, ICustomerClient customerClient) : base(mapper) {
-            this._customerClient = customerClient;
+            _customerClient = customerClient;
         }
 
         public async Task<OverviewModel<CustomerResponse>> GetList() {
-            return this.Map(await this._customerClient.GetCustomerListAsync());
+            return Map(await _customerClient.GetCustomerListAsync());
         }
 
         public async Task<OverviewModel<CustomerResponse>> GetListByUrl(string url) {
-            return this.Map(await this._customerClient.GetCustomerListAsync(this.CreateUrlObject(url)));
+            return Map(await _customerClient.GetCustomerListAsync(CreateUrlObject(url)));
         }
     }
 }

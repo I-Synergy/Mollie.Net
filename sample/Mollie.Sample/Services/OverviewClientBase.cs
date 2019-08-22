@@ -10,11 +10,11 @@ namespace Mollie.Sample.Services
         private readonly IMapper _mapper;
 
         protected OverviewClientBase(IMapper mapper) {
-            this._mapper = mapper;
+            _mapper = mapper;
         }
 
         protected OverviewModel<T> Map(ListResponse<T> list) {
-            return this._mapper.Map<OverviewModel<T>>(list);
+            return _mapper.Map<OverviewModel<T>>(list);
         }
 
         protected UrlObjectLink<ListResponse<T>> CreateUrlObject(string url) {

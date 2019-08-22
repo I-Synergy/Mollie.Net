@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Mollie.Client;
 using Mollie.Enumerations;
 using Mollie.Models.Mandate;
 
@@ -11,12 +12,12 @@ namespace Mollie.Sample.Services.Mandate
     public class MandateStorageClient : IMandateStorageClient {
         private readonly IMandateClient _mandateClient;
         public MandateStorageClient(IMandateClient mandateClient) {
-            this._mandateClient = mandateClient;
+            _mandateClient = mandateClient;
         }
 
         public async Task<MandateResponse> Create(string customerId) {
-            MandateRequest mandateRequest = this.CreateDefaultMandateRequest();
-            return await this._mandateClient.CreateMandateAsync(customerId, mandateRequest);
+            MandateRequest mandateRequest = CreateDefaultMandateRequest();
+            return await _mandateClient.CreateMandateAsync(customerId, mandateRequest);
         }
 
         private MandateRequest CreateDefaultMandateRequest() {

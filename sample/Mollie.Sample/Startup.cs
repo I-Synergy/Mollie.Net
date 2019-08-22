@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Mollie.Sample.Framework.Middleware;
+using Mollie.Common;
+using Mollie.Models;
+using Mollie.Sample.Framework.Extensions;
 using Mollie.Sample.Services.Customer;
 using Mollie.Sample.Services.Mandate;
 using Mollie.Sample.Services.Payment;
@@ -16,10 +18,15 @@ namespace Mollie.Sample
 {
     public class Startup
     {
-        private readonly IConfiguration Configuration;
+        protected IConfiguration Configuration { get; }
+        protected IHostingEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment environment, IConfiguration configuration)
         {
+            Argument.IsNotNull(nameof(environment), environment);
+            Argument.IsNotNull(nameof(configuration), configuration);
+
+            Environment = environment;
             Configuration = configuration;
         }
 
@@ -27,7 +34,15 @@ namespace Mollie.Sample
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMollieApi(Configuration["MollieApiKey"]);
+            services.AddOptions();
+
+            services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
+
+            var appSettings = new AppSettings();
+            Configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
+
+            services.AddMollieApi(appSettings.ApiToken);
+
             services.AddScoped<IPaymentOverviewClient, PaymentOverviewClient>();
             services.AddScoped<ICustomerOverviewClient, CustomerOverviewClient>();
             services.AddScoped<ISubscriptionOverviewClient, SubscriptionOverviewClient>();

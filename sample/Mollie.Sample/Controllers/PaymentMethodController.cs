@@ -9,12 +9,12 @@ namespace Mollie.Sample.Controllers {
         private readonly IPaymentMethodOverviewClient _paymentMethodOverviewClient;
 
         public PaymentMethodController(IPaymentMethodOverviewClient paymentMethodOverviewClient) {
-            this._paymentMethodOverviewClient = paymentMethodOverviewClient;
+            _paymentMethodOverviewClient = paymentMethodOverviewClient;
         }
 
         public async Task<ViewResult> Index() {
-            OverviewModel<PaymentMethodResponse> model = await this._paymentMethodOverviewClient.GetList();
-            return this.View(model);
+            OverviewModel<PaymentMethodResponse> model = await _paymentMethodOverviewClient.GetList();
+            return View(model);
         }
     }
 }

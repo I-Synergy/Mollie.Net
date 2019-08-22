@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Mollie.Client;
 using Mollie.Models.Customer;
 using Mollie.Sample.Models;
 
@@ -10,13 +11,13 @@ namespace Mollie.Sample.Services.Customer
         private readonly IMapper _mapper;
 
         public CustomerStorageClient(ICustomerClient customerClient, IMapper mapper) {
-            this._customerClient = customerClient;
-            this._mapper = mapper;
+            _customerClient = customerClient;
+            _mapper = mapper;
         }
 
         public async Task Create(CreateCustomerModel model) {
-            CustomerRequest customerRequest = this._mapper.Map<CustomerRequest>(model);
-            await this._customerClient.CreateCustomerAsync(customerRequest);
+            CustomerRequest customerRequest = _mapper.Map<CustomerRequest>(model);
+            await _customerClient.CreateCustomerAsync(customerRequest);
         }
     }
 }
