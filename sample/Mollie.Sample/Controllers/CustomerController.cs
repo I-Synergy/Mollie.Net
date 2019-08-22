@@ -11,36 +11,36 @@ namespace Mollie.Sample.Controllers
         private readonly ICustomerStorageClient _customerStorageClient;
 
         public CustomerController(ICustomerOverviewClient customerOverviewClient, ICustomerStorageClient customerStorageClient) {
-            this._customerOverviewClient = customerOverviewClient;
-            this._customerStorageClient = customerStorageClient;
+            _customerOverviewClient = customerOverviewClient;
+            _customerStorageClient = customerStorageClient;
         }
 
         [HttpGet]
         public async Task<ViewResult> Index() {
-            OverviewModel<CustomerResponse> model = await this._customerOverviewClient.GetList();
-            return this.View(model);
+            OverviewModel<CustomerResponse> model = await _customerOverviewClient.GetList();
+            return View(model);
         }
 
         [HttpGet]
         public async Task<ViewResult> ApiUrl([FromQuery]string url) {
-            OverviewModel<CustomerResponse> model = await this._customerOverviewClient.GetListByUrl(url);
-            return this.View(nameof(this.Index), model);
+            OverviewModel<CustomerResponse> model = await _customerOverviewClient.GetListByUrl(url);
+            return View(nameof(this.Index), model);
         }
 
         [HttpGet]
         public ViewResult Create() {
             CreateCustomerModel model = new CreateCustomerModel();
-            return this.View(model);
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerModel model) {
-            if (!this.ModelState.IsValid) {
-                return this.View();
+            if (!ModelState.IsValid) {
+                return View();
             }
 
-            await this._customerStorageClient.Create(model);
-            return this.RedirectToAction(nameof(this.Index));
+            await _customerStorageClient.Create(model);
+            return RedirectToAction(nameof(this.Index));
         }
     }
 }

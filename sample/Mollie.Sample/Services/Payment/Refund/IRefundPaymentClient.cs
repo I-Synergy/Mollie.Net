@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Mollie.Client;
 using Mollie.Models;
 using Mollie.Models.Payment.Response;
 using Mollie.Models.Refund;
@@ -14,21 +15,21 @@ namespace Mollie.Sample.Services.Payment.Refund
         private readonly IPaymentClient _paymentClient;
 
         public RefundPaymentClient(IRefundClient refundClient, IPaymentClient paymentClient) {
-            this._refundClient = refundClient;
-            this._paymentClient = paymentClient;
+            _refundClient = refundClient;
+            _paymentClient = paymentClient;
         }
 
         public async Task Refund(string paymentId) {
-            PaymentResponse paymentToRefund = await this.GetPaymentDetails(paymentId);
+            PaymentResponse paymentToRefund = await GetPaymentDetails(paymentId);
             RefundRequest refundRequest = new RefundRequest() {
                 Amount = new Amount(paymentToRefund.Amount.Currency, paymentToRefund.Amount.Value)
             };
 
-            await this._refundClient.CreateRefundAsync(paymentId, refundRequest);
+            await _refundClient.CreateRefundAsync(paymentId, refundRequest);
         }
 
         private async Task<PaymentResponse> GetPaymentDetails(string paymentId) {
-            return await this._paymentClient.GetPaymentAsync(paymentId);
+            return await _paymentClient.GetPaymentAsync(paymentId);
         }
     }
 }

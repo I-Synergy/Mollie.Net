@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Mollie.Client;
 using Mollie.Models.PaymentMethod;
 using Mollie.Sample.Models;
 
@@ -9,11 +10,11 @@ namespace Mollie.Sample.Services.PaymentMethod
         private readonly IPaymentMethodClient _paymentMethodClient;
 
         public PaymentMethodOverviewClient(IMapper mapper, IPaymentMethodClient paymentMethodClient) : base(mapper) {
-            this._paymentMethodClient = paymentMethodClient;
+            _paymentMethodClient = paymentMethodClient;
         }
 
         public async Task<OverviewModel<PaymentMethodResponse>> GetList() {
-            return this.Map(await this._paymentMethodClient.GetPaymentMethodListAsync());
+            return Map(await _paymentMethodClient.GetPaymentMethodListAsync());
         }
     }
 }

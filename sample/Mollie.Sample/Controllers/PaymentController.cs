@@ -12,20 +12,20 @@ namespace Mollie.Sample.Controllers
         private readonly IPaymentStorageClient _paymentStorageClient;
 
         public PaymentController(IPaymentOverviewClient paymentOverviewClient, IPaymentStorageClient paymentStorageClient) {
-            this._paymentOverviewClient = paymentOverviewClient;
-            this._paymentStorageClient = paymentStorageClient;
+            _paymentOverviewClient = paymentOverviewClient;
+            _paymentStorageClient = paymentStorageClient;
         }
 
         [HttpGet]
         public async Task<ViewResult> Index() {
-            OverviewModel<PaymentResponse> model = await this._paymentOverviewClient.GetList();
-            return this.View(model);
+            OverviewModel<PaymentResponse> model = await _paymentOverviewClient.GetList();
+            return View(model);
         }
 
         [HttpGet]
         public async Task<ViewResult> ApiUrl([FromQuery]string url) {
-            OverviewModel<PaymentResponse> model = await this._paymentOverviewClient.GetListByUrl(url);
-            return this.View(nameof(this.Index), model);
+            OverviewModel<PaymentResponse> model = await _paymentOverviewClient.GetListByUrl(url);
+            return View(nameof(this.Index), model);
         }
 
         [HttpGet]
@@ -35,17 +35,17 @@ namespace Mollie.Sample.Controllers
                 Currency = Currency.EUR
             };
 
-            return this.View(model);
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreatePaymentModel model) {
-            if (!this.ModelState.IsValid) {
-                return this.View();
+            if (!ModelState.IsValid) {
+                return View();
             }
 
-            await this._paymentStorageClient.Create(model);
-            return this.RedirectToAction(nameof(this.Index));
+            await _paymentStorageClient.Create(model);
+            return RedirectToAction(nameof(this.Index));
         }
     }
 }

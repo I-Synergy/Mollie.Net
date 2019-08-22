@@ -6,8 +6,8 @@ namespace Mollie.Sample.Models {
         public UrlLink Next { get; set; }
 
         public OverviewNavigationLinksModel(UrlLink previous, UrlLink next) {
-            this.Previous = previous;
-            this.Next = next;
+            Previous = previous;
+            Next = next;
         }
     }
 }

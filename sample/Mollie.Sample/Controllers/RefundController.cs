@@ -7,13 +7,13 @@ namespace Mollie.Sample.Controllers {
         private readonly IRefundPaymentClient _refundPaymentClient;
 
         public RefundController(IRefundPaymentClient refundPaymentClient) {
-            this._refundPaymentClient = refundPaymentClient;
+            _refundPaymentClient = refundPaymentClient;
         }
 
         [HttpPost]
         public async Task<IActionResult> Refund(string paymentId) {
-            await this._refundPaymentClient.Refund(paymentId);
-            return this.RedirectToAction(nameof(PaymentController.Index), "Payment");
+            await _refundPaymentClient.Refund(paymentId);
+            return RedirectToAction(nameof(PaymentController.Index), "Payment");
         }
     }
 }

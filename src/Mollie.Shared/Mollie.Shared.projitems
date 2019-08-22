@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\ICustomerClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IInvoicesClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMandateClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IMollieClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrderClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IOrganizationsClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Interfaces\IPaymentClient.cs" />
