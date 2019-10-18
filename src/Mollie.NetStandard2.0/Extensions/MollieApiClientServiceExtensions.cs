@@ -6,7 +6,7 @@ namespace Mollie
 {
     public static class MollieApiClientServiceExtensions
     {
-        public static IServiceCollection AddMollieApi(this IServiceCollection services, string apiKey)
+        public static IServiceCollection AddMollieApi(this IServiceCollection services)
         {
             services.AddHttpClient();
             services.AddSingleton<IClientService, ClientService>();

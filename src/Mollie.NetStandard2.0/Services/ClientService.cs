@@ -25,9 +25,10 @@ namespace Mollie.Services
         /// <summary>
         /// Create a new Service client
         /// </summary>
-        /// <param name="apiToken">PAYNL Api Token</param>
-        /// <param name="serviceID">PAYNL Service ID</param>
-        /// <param name="proxyConfigurationInjector">Proxy Injector</param>
+        /// <param name="settings"></param>
+        /// <param name="httpClientFactory"></param>
+        /// <param name="jsonConverterService"></param>
+        /// <param name="validatorService"></param>
         public ClientService(IOptions<AppSettings> settings, IHttpClientFactory httpClientFactory, IJsonConverterService jsonConverterService, IValidatorService validatorService)
         {
             Settings = settings.Value;

@@ -38,10 +38,7 @@ namespace Mollie.Sample
 
             services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
 
-            var appSettings = new AppSettings();
-            Configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
-
-            services.AddMollieApi(appSettings.ApiToken);
+            services.AddMollieApi();
 
             services.AddScoped<IPaymentOverviewClient, PaymentOverviewClient>();
             services.AddScoped<ICustomerOverviewClient, CustomerOverviewClient>();
